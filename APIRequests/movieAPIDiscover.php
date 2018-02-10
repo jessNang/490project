@@ -22,10 +22,9 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 	{
 		if(substr($argument , 1, 9) == "noKeyword")
 		{	
-			if($noKeyword == true)
+			if($noKeyword)
 			{
 				$currentArray = $noKeywordIndex;
-				continue;
 			}
 			else
 			{
@@ -33,23 +32,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$noKeywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$noKeywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "noGenre")
 		{
-			if($noGenre == true)
+			if($noGenre)
 			{
 				$currentArray = $noGenre;
-				continue;
 			}
 			else
 			{
@@ -57,23 +53,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$noGenre = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$noGenreIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 4) == "year")
 		{
-			if($year == true)
+			if($year)
 			{
 				$currentArray = $year;
-				continue;
 			}
 			else
 			{
@@ -81,23 +74,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$yearIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$yearIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 6) == "people")
 		{
-			if($people == true)
+			if($people)
 			{
 				$currentArray = $people;
-				continue;
 			}
 			else
 			{
@@ -105,23 +95,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$peopleIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$peopleIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "keyword")
 		{
-			if($keyword == true)
+			if($keyword)
 			{
 				$currentArray = $keywordIndex;
-				continue;
 			}
 			else
 			{
@@ -129,23 +116,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$keywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$keywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 5) == "genre")
 		{
-			if($genre == true)
+			if($genre)
 			{
 				$currentArray = $genreIndex;
-				continue;
 			}
 			else
 			{
@@ -153,23 +137,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$genreIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$genreIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "company")
 		{
-			if($company == true)
+			if($company)
 			{
 				$currentArray = $companyIndex;
-				continue;
 			}
 			else
 			{
@@ -177,14 +158,12 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$companyIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$companyIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
@@ -193,7 +172,6 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 			if($crew == true)
 			{
 				$currentArray = $crewIndex;
-				continue;
 			}
 			else
 			{
@@ -201,23 +179,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$crewIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$crewIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 4) == "cast")
 		{
-			if($cast == true)
+			if($cast)
 			{
 				$currentArray = $castIndex;
-				continue;
 			}
 			else
 			{
@@ -225,23 +200,20 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$castIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$castIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		elseif(substr($argument , 1, 5) == "adult")
 		{	
-			if($adult == true)
+			if($adult)
 			{
 				$currentArray = $adultIndex;
-				continue;
 			}
 			else
 			{
@@ -249,25 +221,22 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				if($currentArray == -1)
 				{
 					$adultIndex = $currentArray = $totalArrays;
-					$totalArrays++;				
-					continue;
+					$totalArrays++;
 				}
 				else
 				{
 					$adultIndex = $currentArray = $totalArrays;
 					$totalArrays++;
-					continue;
 				}
 			}
 		}
 		else
 		{
 			echo "invalid argument " . $argument . PHP_EOL;
-			continue;
 		}
 	}
-
-	$parameters[$currentArray][] = $argument;
+	else
+		$parameters[$currentArray][] = $argument;
 }
 
 print_r($parameters);
