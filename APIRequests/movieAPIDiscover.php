@@ -32,15 +32,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$noKeyword = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$noKeywordIndex = $currentArray;
+					$noKeywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$noKeywordIndex = $currentArray;
+					$noKeywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -58,15 +56,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$noGenre = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$noGenre = $currentArray;
+					$noGenre = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$noGenreIndex = $currentArray;
+					$noGenreIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -84,15 +80,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$year = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$yearIndex = $currentArray;
+					$yearIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$yearIndex = $currentArray;
+					$yearIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -110,15 +104,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$people = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$peopleIndex = $currentArray;
+					$peopleIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$peopleIndex = $currentArray;
+					$peopleIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -136,15 +128,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$keyword = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$keywordIndex = $currentArray;
+					$keywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$keywordIndex = $currentArray;
+					$keywordIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -162,15 +152,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$genre = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$genreIndex = $currentArray;
+					$genreIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$genreIndex = $currentArray;
+					$genreIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -188,15 +176,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$company = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$companyIndex = $currentArray;
+					$companyIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$companyIndex = $currentArray;
+					$companyIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -214,15 +200,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$crew = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$crewIndex = $currentArray;
+					$crewIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$crewIndex = $currentArray;
+					$crewIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -240,15 +224,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$cast = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$castIndex = $currentArray;
+					$castIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$castIndex = $currentArray;
+					$castIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
@@ -266,15 +248,13 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 				$adult = true;
 				if($currentArray == -1)
 				{
-					$currentArray = $totalArrays;
-					$adultIndex = $currentArray;
+					$adultIndex = $currentArray = $totalArrays;
 					$totalArrays++;				
 					continue;
 				}
 				else
 				{
-					$currentArray = $totalArrays;;
-					$adultIndex = $currentArray;
+					$adultIndex = $currentArray = $totalArrays;
 					$totalArrays++;
 					continue;
 				}
