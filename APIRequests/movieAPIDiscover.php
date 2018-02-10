@@ -1,6 +1,18 @@
 <?php
 
 $currentArray = -1;
+$totalArrays = 0;
+
+$noKeyword = false;
+$noGenre = false;
+$year = false;
+$people = false;
+$keyword = false;
+$genre = false;
+$company = false;
+$crew = false;
+$cast = false;
+$adult = false;
 
 for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 {
@@ -10,162 +22,262 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 	{
 		if(substr($argument , 1, 9) == "noKeyword")
 		{	
-			$noKeyword = true;
-			if($currentArray == -1)
+			if($noKeyword == true)
 			{
-				$currentArray = 0;
-				$noKeywordIndex = $currentArray;				
+				$currentArray = $noKeywordIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$noKeywordIndex = $currentArray;
-				continue;
+				$noKeyword = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$noKeywordIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$noKeywordIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "noGenre")
 		{
-			$noGenre = true;
-			if($currentArray == -1)
+			if($noGenre == true)
 			{
-				$currentArray = 0;
-				$noGenreIndex = $currentArray;
+				$currentArray = $noGenre;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$noGenreIndex = $currentArray;
-				continue;
+				$noGenre = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$noGenre = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$noGenreIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 4) == "year")
 		{
-			$year = true;
-			if($currentArray == -1)
+			if($year == true)
 			{
-				$currentArray = 0;
-				$yearIndex = $currentArray;
+				$currentArray = $year;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$yearIndex = $currentArray;
-				continue;
+				$year = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$yearIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$yearIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 6) == "people")
 		{
-			$people = true;
-			if($currentArray == -1)
+			if($people == true)
 			{
-				$currentArray = 0;
-				$peopleIndex = $currentArray;
+				$currentArray = $people;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$peopleIndex = $currentArray;
-				continue;
+				$people = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$peopleIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$peopleIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "keyword")
 		{
-			$keyword = true;
-			if($currentArray == -1)
+			if($keyword == true)
 			{
-				$currentArray = 0;
-				$keywordIndex = $currentArray;
+				$currentArray = $keywordIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$keywordIndex = $currentArray;
-				continue;
+				$keyword = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$keywordIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$keywordIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 5) == "genre")
 		{
-			$genre = true;
-			if($currentArray == -1)
+			if($genre == true)
 			{
-				$currentArray = 0;
-				$genreIndex = $currentArray;
+				$currentArray = $genreIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$genreIndex = $currentArray;
-				continue;
+				$genre = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$genreIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$genreIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 7) == "company")
 		{
-			$company = true;
-			if($currentArray == -1)
+			if($company == true)
 			{
-				$currentArray = 0;
-				$companyIndex = $currentArray;
+				$currentArray = $companyIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$companyIndex = $currentArray;
-				continue;
+				$company = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$companyIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$companyIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 4) == "crew")
 		{
-			$crew = true;
-			if($currentArray == -1)
+			if($crew == true)
 			{
-				$currentArray = 0;
-				$crewIndex = $currentArray;
+				$currentArray = $crewIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$crewIndex = $currentArray;
-				continue;
+				$crew = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$crewIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$crewIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 4) == "cast")
 		{
-			$cast = true;
-			if($currentArray == -1)
+			if($cast == true)
 			{
-				$currentArray = 0;
-				$castIndex = $currentArray;
+				$currentArray = $castIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$castIndex = $currentArray;
-				continue;
+				$cast = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$castIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$castIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		elseif(substr($argument , 1, 5) == "adult")
 		{	
-			$adult = true;
-			if($currentArray == -1)
+			if($adult == true)
 			{
-				$currentArray = 0;
-				$adultIndex = $currentArray;
+				$currentArray = $adultIndex;
 				continue;
 			}
 			else
 			{
-				$currentArray++;
-				$adultIndex = $currentArray;
-				continue;
+				$adult = true;
+				if($currentArray == -1)
+				{
+					$currentArray = $totalArrays;
+					$adultIndex = $currentArray;
+					$totalArrays++;				
+					continue;
+				}
+				else
+				{
+					$currentArray = $totalArrays;;
+					$adultIndex = $currentArray;
+					$totalArrays++;
+					continue;
+				}
 			}
 		}
 		else
@@ -179,7 +291,7 @@ for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
 }
 
 print_r($parameters);
-//print_r($parameters[8]);
+
 /*
 $SearchParameters = "without_keywords={$parameters[0]}&without_genres={$parameters[1]}&year={$parameters[2]}&with_people={$parameters[3]}&with_keywords={$parameters[4]}&with_genres={$parameters[5]}&with_companies={$parameters[6]}&with_crew={$parameters[7]}&with_cast={$$parameters[8]}&include_adult={$$parameters[9][0]}"
 
