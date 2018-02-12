@@ -8,6 +8,7 @@
 </head>
 
 <script>
+//function to make sure that the two password fields match
 function checkPwd(){
         var password = document.getElementById("password");
         var confPassword = document.getElementById("confPassword");
@@ -57,6 +58,7 @@ if(isset($_POST["submit"])){
 	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
 	$numrows=mysqli_num_rows($query);
 	
+	#if the user isn't in the database add them
 	if($numrows==0){
 		$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
 
@@ -66,7 +68,7 @@ if(isset($_POST["submit"])){
 		} else {
 			echo "Failure!";
 		}
-
+	#else display that the user already exists
 	} else {
 		echo "That username already exists! please try again with another.";
 	}
