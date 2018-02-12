@@ -20,12 +20,18 @@
                 <a href="register.php">New User? Register here</a>
         </form>
         </div>
+
 <?php
+#connecting to database
 include("account.php");
 $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
+
+#checks to see if the username and password the user entered is correct
+#if correct -> logs user in, starts a session, and brings them to the welcome page
+#else if incorrect -> displays that the password or username they entered is incorrect
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=mysqli_real_escape_string($con, $_POST['password']);
+	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
 	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."' AND passwd='".$pass."'");
 	$numrows=mysqli_num_rows($query);
 	if($numrows!=0){
