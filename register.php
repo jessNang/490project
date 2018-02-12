@@ -54,11 +54,11 @@ if(isset($_POST["submit"])){
 	$pass=mysqli_real_escape_string($con, $_POST['password']);
 	$email=mysqli_real_escape_string($con, $_POST['email']);
 
-	$query=mysqli_query($con,"SELECT * FROM login where user='".$user."'");
+	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
 	$numrows=mysqli_num_rows($query);
 
 	if($numrows==0){
-		$sql="INSERT INTO login(user, email, password) VALUES('$user','$email', '$pass')";
+		$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
 
 		$result=mysqli_query($con, $sql);
 		if($result){
