@@ -1,245 +1,72 @@
 <?php
+$param = array(false,false,false,false,false,false,false,false,false,false);
+$paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
+$paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
+$paramName = array("noKeyword","noGenre","year","people","keyword","genre","company","crew","cast","adult");
+$final = array();
+$finalName = array();
 
-$currentArray = -1;
-$totalArrays = 0;
-
-$noKeyword = false;
-$noGenre = false;
-$year = false;
-$people = false;
-$keyword = false;
-$genre = false;
-$company = false;
-$crew = false;
-$cast = false;
-$adult = false;
-
-for($x=1; $x < $argc; $x++)	//itterate through the command line arguments
+//figures out which of the discover fields are being used
+for($i = 1; $i < $argc; $i++)
 {
-	$argument = $argv[$x];
-	
-	if(substr($argument, 0, 1) == "-")
+	if(substr($argv[$i],0,1) == "-")
 	{
-		if(substr($argument , 1, 9) == "noKeyword")
-		{	
-			if($noKeyword)
-			{
-				$currentArray = $noKeywordIndex;
-			}
-			else
-			{
-				$noKeyword = true;
-				if($currentArray == -1)
-				{
-					$noKeywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$noKeywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 7) == "noGenre")
+		switch($argv[$i])
 		{
-			if($noGenre)
-			{
-				$currentArray = $noGenre;
-			}
-			else
-			{
-				$noGenre = true;
-				if($currentArray == -1)
-				{
-					$noGenre = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$noGenreIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 4) == "year")
-		{
-			if($year)
-			{
-				$currentArray = $year;
-			}
-			else
-			{
-				$year = true;
-				if($currentArray == -1)
-				{
-					$yearIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$yearIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 6) == "people")
-		{
-			if($people)
-			{
-				$currentArray = $people;
-			}
-			else
-			{
-				$people = true;
-				if($currentArray == -1)
-				{
-					$peopleIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$peopleIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 7) == "keyword")
-		{
-			if($keyword)
-			{
-				$currentArray = $keywordIndex;
-			}
-			else
-			{
-				$keyword = true;
-				if($currentArray == -1)
-				{
-					$keywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$keywordIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 5) == "genre")
-		{
-			if($genre)
-			{
-				$currentArray = $genreIndex;
-			}
-			else
-			{
-				$genre = true;
-				if($currentArray == -1)
-				{
-					$genreIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$genreIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 7) == "company")
-		{
-			if($company)
-			{
-				$currentArray = $companyIndex;
-			}
-			else
-			{
-				$company = true;
-				if($currentArray == -1)
-				{
-					$companyIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$companyIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 4) == "crew")
-		{
-			if($crew == true)
-			{
-				$currentArray = $crewIndex;
-			}
-			else
-			{
-				$crew = true;
-				if($currentArray == -1)
-				{
-					$crewIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$crewIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 4) == "cast")
-		{
-			if($cast)
-			{
-				$currentArray = $castIndex;
-			}
-			else
-			{
-				$cast = true;
-				if($currentArray == -1)
-				{
-					$castIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$castIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		elseif(substr($argument , 1, 5) == "adult")
-		{	
-			if($adult)
-			{
-				$currentArray = $adultIndex;
-			}
-			else
-			{
-				$adult = true;
-				if($currentArray == -1)
-				{
-					$adultIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-				else
-				{
-					$adultIndex = $currentArray = $totalArrays;
-					$totalArrays++;
-				}
-			}
-		}
-		else
-		{
-			echo "invalid argument " . $argument . PHP_EOL;
+			case "-noKeyword": $param[0] = true;array_push($paramPos[0], $i);break;
+			case "-noGenre":   $param[1] = true;array_push($paramPos[1], $i);break;
+			case "-year":      $param[2] = true;array_push($paramPos[2], $i);break;
+			case "-people":    $param[3] = true;array_push($paramPos[3], $i);break;
+			case "-keyword":   $param[4] = true;array_push($paramPos[4], $i);break;
+			case "-genre":     $param[5] = true;array_push($paramPos[5], $i);break;
+			case "-company":   $param[6] = true;array_push($paramPos[6], $i);break;
+			case "-crew":      $param[7] = true;array_push($paramPos[7], $i);break;
+			case "-cast":      $param[8] = true;array_push($paramPos[8], $i);break;
+			case "-adult":     $param[9] = true;array_push($paramPos[9], $i);break;
+			default:break;
 		}
 	}
-	else
-		$parameters[$currentArray][] = $argument;
+}
+//sorts the parameters for the search into the proper array
+for($i = 0; $i < count($param); $i++)
+{
+	if($param[$i])
+	{
+		echo "For " . $paramName[$i] . "Adding:".PHP_EOL;
+		for($j = 0; $j < count($paramPos[$i]);$j++)
+		{
+			$offset = 1;
+			while(($paramPos[$i][$j] + $offset) < $argc && substr($argv[$paramPos[$i][$j] + $offset],0,1) != "-")
+			{
+				echo $argv[$paramPos[$i][$j] + $offset].PHP_EOL;
+				array_push($paramValue[$i], $argv[$paramPos[$i][$j] + $offset]);
+				$offset++;
+			}
+			if($offset == 1)
+			{
+				echo "Missing Arguments".PHP_EOL."Now Exiting".PHP_EOL;
+				return;
+			}
+		}
+	}
 }
 
-print_r($parameters);
+//removes the empty indexes from the arrays so only the used discover fields are included
+$finalcount = 0;
+for($i = 0; $i < count($param); $i++)
+{
+	if($param[$i])
+	{
+		array_push($final,array());
+		$final[$finalcount] = $paramValue[$i];//$final is an array of the search terms
+		array_push($finalName,$paramName[$i]);//$finalName is an array of 
+		$finalcount++;
+	}
+}
+
+print_r($finalName);
+
+
 
 /*
 $SearchParameters = "without_keywords={$parameters[0]}&without_genres={$parameters[1]}&year={$parameters[2]}&with_people={$parameters[3]}&with_keywords={$parameters[4]}&with_genres={$parameters[5]}&with_companies={$parameters[6]}&with_crew={$parameters[7]}&with_cast={$$parameters[8]}&include_adult={$$parameters[9][0]}"
