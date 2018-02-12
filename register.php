@@ -51,12 +51,12 @@ $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_e
 
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=mysqli_real_escape_string($con, $_POST['password']);
+	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
 	$email=mysqli_real_escape_string($con, $_POST['email']);
 
 	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
 	$numrows=mysqli_num_rows($query);
-
+	
 	if($numrows==0){
 		$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
 
