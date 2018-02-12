@@ -23,24 +23,19 @@
 <?php
 include("account.php");
 $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
-
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
 	$pass=mysqli_real_escape_string($con, $_POST['password']);
-
-	$query=mysqli_query($con,"SELECT * FROM login where user='".$user."' AND password='".$pass."'");
+	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."' AND passwd='".$pass."'");
 	$numrows=mysqli_num_rows($query);
-
 	if($numrows!=0){
 		while($row=mysqli_fetch_assoc($query)){
-			$dbusername=$row['user'];
-			$dbpassword=$row['password'];
+			$dbusername=$row['name'];
+			$dbpassword=$row['passwd'];
 		}
-
 		if($user == $dbusername && $pass == $dbpassword){
 			session_start();
 			$_SESSION['sess_user']=$user;
-
 			//redirect browser
 			header("Location:welcome.php");
 		}
