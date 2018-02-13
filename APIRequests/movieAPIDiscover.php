@@ -1,4 +1,6 @@
 <?php
+include 'class.ConvertToArray.php';
+
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 $paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -90,7 +92,7 @@ curl_setopt_array($curl, array(
   CURLOPT_POSTFIELDS => "{}",
 ));
 
-$response = curl_exec($curl);
+$jsonResponse = curl_exec($curl);
 $err = curl_error($curl);
 
 curl_close($curl);
@@ -98,7 +100,9 @@ curl_close($curl);
 if ($err) {
   echo "cURL Error #:" . $err;
 } else {
-  echo $response;
+  echo $jsonResponse;
+  $arrayResponse = ConvertToArray::_jsonConvert($jsonResponse);
+  print_r($arrayResponse);
 }
 
 ?>

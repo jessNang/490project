@@ -1,8 +1,13 @@
 <?php
 include 'class.IMDBSearch.php';
+include 'class.ConvertToArray.php';
 
 $title = $argv[1];
-$year = $argv[2];
+if($argc > 2)
+  $year = $argv[2];
+else
+ $year = '';
+
 $imdbPage = IMDBSearch::_movieRedirect($title, $year);
 
 $parts = explode("title/",$imdbPage);
@@ -26,7 +31,7 @@ curl_setopt_array($curl, array(
   CURLOPT_POSTFIELDS => "{}",
 ));
 
-$response = curl_exec($curl);
+$jsonResponse = curl_exec($curl);
 $err = curl_error($curl);
 
 curl_close($curl);
@@ -34,8 +39,9 @@ curl_close($curl);
 if ($err) {
   echo "cURL Error #:" . $err;
 } else {
-  echo $response;
-  return $response;
+  echo $jsonResponse;
+  $arrayResponse = ConvertToArray::_jsonConvert($jsonResponse);
+  print_r($arrayResponse);
 }
 
 ?>
