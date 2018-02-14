@@ -21,6 +21,26 @@
 	return $imdbid;
   }
 
+	//converts an actors name
+	public static function _actorRedirect($actor) {
+		$actorName = str_replace(' ', '+', $actor);
+ 
+	   	$page = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
+	   	if(@preg_match('~<p style="margin:0 0 0.5em 0;"><b>Media from .*?href="/name\/(.*?)".*?</p>~s', $page, $matches)) {
+	   		$rawData = @file_get_contents( 'http://www.imdb.com/name/'. $matches[1]);     
+		}
+		else if(@preg_match('~<td class="result_text">.*?href="/name\/(.*?)".*?</td>~s', $page, $matches)) {
+			$rawData = @file_get_contents( 'http://www.imdb.com/name/'. $matches[1]);
+		}
+		else {
+		$rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
+		}
+		$parts = explode("name/",$rawData);
+		$parts = explode("?",$parts[1]);
+		$imdbid = $parts[0];
+		return $imdbid;
+	}
+
 	//converts a genre into the genre ID for the TMDB api
 	public static function _genreConvertToID($genreString)
 	{
