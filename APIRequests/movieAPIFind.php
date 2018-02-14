@@ -1,5 +1,5 @@
 <?php
-include 'class.IMDBSearch.php';
+include 'class.ConvertForAPI.php';
 include 'class.ConvertToArray.php';
 
 $title = $argv[1];
@@ -8,11 +8,7 @@ if($argc > 2)
 else
  $year = '';
 
-$imdbPage = IMDBSearch::_movieRedirect($title, $year);
-
-$parts = explode("title/",$imdbPage);
-$parts = explode("?",$parts[1]);
-$imdbid = $parts[0];
+$imdbid = ConvertForApi::_movieRedirect($title, $year);
 
 echo "title: " . $title . PHP_EOL;
 echo "year: " . $year . PHP_EOL;

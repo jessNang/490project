@@ -1,4 +1,5 @@
 <?php
+include 'class.ConvertForAPI.php';
 include 'class.ConvertToArray.php';
 
 $param = array(false,false,false,false,false,false,false,false,false,false);
@@ -69,7 +70,7 @@ for($i = 0; $i < count($param); $i++)
 $searchParameters = '';
 for($i = 0; $i < count($finalName); $i++)
 {
-	$searchParameters .= "$finalName[$i]=";
+	$searchParameters .= "&$finalName[$i]=";
 	for($j = 0; $j < count($final[$i]); $j++)
 	{
 		if($j == 0)
@@ -79,10 +80,12 @@ for($i = 0; $i < count($finalName); $i++)
 	}
 }
 
+echo "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false" . PHP_EOL;
+
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?api_key=78d3b2e412d269add2b072f074d49fa3&sort_by=popularity.desc&language=en-US&$searchParameters&page=1&include_video=false",
+  CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,
