@@ -1,6 +1,5 @@
 <?php
 include 'class.ConvertForAPI.php';
-include 'class.ConvertToArray.php';
 
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -67,6 +66,7 @@ for($i = 0; $i < count($param); $i++)
 	}
 }
 
+//generates the string of search parameters
 $searchParameters = '';
 for($i = 0; $i < count($finalName); $i++)
 {
@@ -76,7 +76,7 @@ for($i = 0; $i < count($finalName); $i++)
 		if($j == 0)
 			$searchParameters .= $final[$i][$j];
 		else
-			$searchParameters .= "%20" . $final[$i][$j];
+			$searchParameters .= "%2C" . $final[$i][$j];
 	}
 }
 
@@ -85,14 +85,14 @@ echo "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$search
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false",
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => "",
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 30,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => "GET",
-  CURLOPT_POSTFIELDS => "{}",
+	CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false",
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_ENCODING => "",
+	CURLOPT_MAXREDIRS => 10,
+	CURLOPT_TIMEOUT => 30,
+	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	CURLOPT_CUSTOMREQUEST => "GET",
+	CURLOPT_POSTFIELDS => "{}",
 ));
 
 $jsonResponse = curl_exec($curl);
@@ -100,12 +100,15 @@ $err = curl_error($curl);
 
 curl_close($curl);
 
-if ($err) {
-  echo "cURL Error #:" . $err;
-} else {
-  echo $jsonResponse;
-  $arrayResponse = ConvertToArray::_jsonConvert($jsonResponse);
-  print_r($arrayResponse);
+if ($err)
+{
+	echo "cURL Error #:" . $err;
+}
+else
+{
+	echo $jsonResponse;
+	//$arrayResponse = ConvertToArray::_jsonConvert($jsonResponse);
+	//print_r($arrayResponse);
 }
 
 ?>

@@ -1,27 +1,27 @@
 <?php
  class ConvertForAPI {
   
-  //converts a movie title and year to an IMDB id
-  public static function _movieRedirect($movie, $year) {
-   $movieName = str_replace(' ', '+', $movie);
+	//converts a movie title and year to an IMDB id
+	public static function _movieRedirect($movie, $year) {
+		$movieName = str_replace(' ', '+', $movie);
  
-   $page = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $movieName. ' ('.$year.')');
-   if(@preg_match('~<p style="margin:0 0 0.5em 0;"><b>Media from .*?href="/title\/(.*?)".*?</p>~s', $page, $matches)) {
-    $rawData = @file_get_contents( 'http://www.imdb.com/title/'. $matches[1]);     
-   }
-   else if(@preg_match('~<td class="result_text">.*?href="/title\/(.*?)".*?</td>~s', $page, $matches)) {
-    $rawData = @file_get_contents( 'http://www.imdb.com/title/'. $matches[1]);
-   }
-   else {
-    $rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $movieName. ' ('.$year.')');
-   }
-	$parts = explode("title/",$rawData);
-	$parts = explode("?",$parts[1]);
-	$imdbid = $parts[0];
-	return $imdbid;
-  }
+		$page = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $movieName. ' ('.$year.')');
+		if(@preg_match('~<p style="margin:0 0 0.5em 0;"><b>Media from .*?href="/title\/(.*?)".*?</p>~s', $page, $matches)) {
+			$rawData = @file_get_contents( 'http://www.imdb.com/title/'. $matches[1]);     
+   		}
+		else if(@preg_match('~<td class="result_text">.*?href="/title\/(.*?)".*?</td>~s', $page, $matches)) {
+			$rawData = @file_get_contents( 'http://www.imdb.com/title/'. $matches[1]);
+		}
+		else {
+			$rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $movieName. ' ('.$year.')');
+		}
+		$parts = explode("title/",$rawData);
+		$parts = explode("?",$parts[1]);
+		$imdbid = $parts[0];
+		return $imdbid;
+	}
 
-	//converts an actors name
+	//converts an actors name into an IMDB id
 	public static function _actorRedirect($actor) {
 		$actorName = str_replace(' ', '+', $actor);
  
@@ -33,7 +33,7 @@
 			$rawData = @file_get_contents( 'http://www.imdb.com/name/'. $matches[1]);
 		}
 		else {
-		$rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
+			$rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
 		}
 		$parts = explode("name/",$rawData);
 		$parts = explode("?",$parts[1]);
@@ -95,6 +95,41 @@
 		);
 		
 		return $genreString[$genreID];
+	}
+
+	//convert a search word into a TMDB keyword id
+	public static function _getKeywordId($keyword)
+	{
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.themoviedb.org/3/search/keyword?page=1&query=$keyword&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err) {
+			echo "cURL Error #:" . $err;
+		} else {
+			echo $response;
+			//cut out the fluff and get the first id returned
+			$arrayResponse = explode("[", $response);
+			$arrayResponse = explode("]", $arrayResponse[1]);
+			// split at },{
+			// remove { and }
+			// split at ,
+			print_r($arrayResponse);
+		}
 	}
 }
 ?>
