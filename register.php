@@ -48,29 +48,54 @@ function checkPwd(){
 
 <?php
 include("account.php");
-$con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
+require_once('path.inc');
+require_once('get_host_info.inc');
+require_once('rabbitMQLib.inc');
 
+$con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
 	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
+#	$pass=password_hash((mysqli_real_escape_string($con, $_POST['password'])), PASSWORD_DEFAULT);
+
 	$email=mysqli_real_escape_string($con, $_POST['email']);
-
-	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
-	$numrows=mysqli_num_rows($query);
 	
-	#if the user isn't in the database add them
-	if($numrows==0){
-		$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	
+	if (isset($argv[1]))
+	{
+  		$msg = $argv[1];
+	}
+	else
+	{
+  		$msg = "test message";
+	}
 
-		$result=mysqli_query($con, $sql);
-		if($result){
-			echo "Account Successfully Created";
+	$request = array();
+	$request['type'] = "Register";
+	$request['username'] = $user;
+	$request['password'] = $pass;
+	$request['email'] = $email;
+	$response = $client->send_request($request);
+	
+	if($response == true){
+		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
+		$numrows=mysqli_num_rows($query);
+	
+		#if the user isn't in the database add them
+		if($numrows==0){
+			$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
+
+			$result=mysqli_query($con, $sql);
+			if($result){
+				echo "Account Successfully Created";
+			} else {
+				echo "Failure!";
+			}
+		#else display that the user already exists
 		} else {
-			echo "Failure!";
+			echo "That username already exists! please try again with another.";
 		}
-	#else display that the user already exists
-	} else {
-		echo "That username already exists! please try again with another.";
 	}
 }
 ?>
