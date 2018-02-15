@@ -24,6 +24,10 @@
 <?php
 #connecting to database
 include("account.php");
+require_once('path.inc');
+require_once('get_host_info.inc');
+require_once('rabbitMQLib.inc');
+
 $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
 
 #checks to see if the username and password the user entered is correct
@@ -32,22 +36,41 @@ $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_e
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
 	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
-	$query=mysqli_query($con,"SELECT * FROM login where name='".$user."' AND passwd='".$pass."'");
-	$numrows=mysqli_num_rows($query);
-	if($numrows!=0){
-		while($row=mysqli_fetch_assoc($query)){
-			$dbusername=$row['name'];
-			$dbpassword=$row['passwd'];
+	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+
+        if (isset($argv[1]))
+        {
+                $msg = $argv[1];
+        }
+        else
+        {
+                $msg = "test message";
+        }
+
+        $request = array();
+        $request['type'] = "Login";
+        $request['username'] = $user;
+        $request['password'] = $pass;
+        $response = $client->send_request($request);
+
+        if($response == true){
+		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."' AND passwd='".$pass."'");
+		$numrows=mysqli_num_rows($query);
+		if($numrows!=0){
+			while($row=mysqli_fetch_assoc($query)){
+				$dbusername=$row['name'];
+				$dbpassword=$row['passwd'];
+			}
+			if($user == $dbusername && $pass == $dbpassword){
+				session_start();
+				$_SESSION['sess_user']=$user;
+				//redirect browser
+				header("Location:welcome.php");
+			}	
+		} 
+		else {
+			echo "Invalid username or password!";
 		}
-		if($user == $dbusername && $pass == $dbpassword){
-			session_start();
-			$_SESSION['sess_user']=$user;
-			//redirect browser
-			header("Location:welcome.php");
-		}
-	} 
-	else {
-		echo "Invalid username or password!";
 	}
 }
 ?>
