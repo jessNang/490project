@@ -4,7 +4,8 @@ include 'class.ConvertForAPI.php';
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 $paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
-$paramName = array("without_keywords","without_genres","year","with_people","with_keyword","with_genres","with_companys","with_crew","with_cast","include_adult");
+$paramName = array("include_adult","with_cast","with_crew","with_companys","with_genres","with_genres","with_keyword","with_people","without_genres","without_keywords");
+
 $final = array();
 $finalName = array();
 
@@ -15,16 +16,16 @@ for($i = 1; $i < $argc; $i++)
 	{
 		switch($argv[$i])
 		{
-			case "-noKeyword": $param[0] = true;array_push($paramPos[0], $i);break;
-			case "-noGenre":   $param[1] = true;array_push($paramPos[1], $i);break;
-			case "-year":      $param[2] = true;array_push($paramPos[2], $i);break;
-			case "-people":    $param[3] = true;array_push($paramPos[3], $i);break;
-			case "-keyword":   $param[4] = true;array_push($paramPos[4], $i);break;
-			case "-genre":     $param[5] = true;array_push($paramPos[5], $i);break;
-			case "-company":   $param[6] = true;array_push($paramPos[6], $i);break;
-			case "-crew":      $param[7] = true;array_push($paramPos[7], $i);break;
-			case "-cast":      $param[8] = true;array_push($paramPos[8], $i);break;
-			case "-adult":     $param[9] = true;array_push($paramPos[9], $i);break;
+			case "-adult":		$param[0] = true;array_push($paramPos[0], $i);break;
+			case "-cast":		$param[1] = true;array_push($paramPos[1], $i);break;
+			case "-crew":		$param[2] = true;array_push($paramPos[2], $i);break;
+			case "-company":	$param[3] = true;array_push($paramPos[3], $i);break;
+			case "-genre":		$param[4] = true;array_push($paramPos[4], $i);break;
+			case "-keyword":	$param[5] = true;array_push($paramPos[5], $i);break;
+			case "-people":		$param[6] = true;array_push($paramPos[6], $i);break;
+			case "-year":		$param[7] = true;array_push($paramPos[7], $i);break;
+			case "-noGenre":	$param[8] = true;array_push($paramPos[8], $i);break;
+			case "-noKeyword":	$param[9] = true;array_push($paramPos[9], $i);break;
 			default:break;
 		}
 	}
