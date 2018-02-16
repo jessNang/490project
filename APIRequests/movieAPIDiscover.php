@@ -4,7 +4,7 @@ include 'class.ConvertForAPI.php';
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 $paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
-$paramName = array("include_adult","with_cast","with_crew","with_companys","with_genres","with_genres","with_keyword","with_people","without_genres","without_keywords");
+$paramName = array("include_adult","with_cast","with_crew","with_companys","with_genres","with_keyword","with_people","without_genres","without_keywords");
 
 $final = array();
 $finalName = array();

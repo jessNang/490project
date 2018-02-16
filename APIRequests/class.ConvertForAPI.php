@@ -192,8 +192,9 @@
 			//echo $response;
 			//cut out the fluff and get the first id returned
 			$parts = explode("\"id\":", $response);
+			print_r($parts);
 			$parts = explode(",", $parts[1]);
-			$keywordID = $parts[0];
+			$keywordid = $parts[0];
 			return $keywordid;
 		}
 	}
