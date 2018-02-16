@@ -63,7 +63,7 @@
 		}
 		else
 		{
-			echo $jsonResponse;
+			//echo $jsonResponse;
 			$parts = explode("\"id\":", $jsonResponse);
 			$parts = explode(",", $parts[1]);
 			$tmdbid = $parts[0];
@@ -76,7 +76,7 @@
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.themoviedb.org/3/search/company?page=1&query=$keyword&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_URL => "https://api.themoviedb.org/3/search/company?page=1&query=$company&api_key=78d3b2e412d269add2b072f074d49fa3",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -97,7 +97,7 @@
 		}
 		else
 		{
-			echo $response;
+			//echo $response;
 			//cut out the fluff and get the first id returned
 			$parts = explode("\"id\":", $response);
 			$parts = explode(",", $parts[1]);
@@ -189,11 +189,11 @@
 		}
 		else
 		{
-			echo $response;
+			//echo $response;
 			//cut out the fluff and get the first id returned
 			$parts = explode("\"id\":", $response);
 			$parts = explode(",", $parts[1]);
-			$keywordID = $parts[0]);
+			$keywordID = $parts[0];
 			return $keywordid;
 		}
 	}

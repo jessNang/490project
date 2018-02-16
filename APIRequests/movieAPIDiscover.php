@@ -103,7 +103,7 @@ for($i = 0; $i < count($finalName); $i++)
 	}
 }
 
-echo $searchParameters . PHP_EOL;
+//echo $searchParameters . PHP_EOL;
 
 $curl = curl_init();
 
