@@ -73,10 +73,25 @@ for($i = 0; $i < count($finalName); $i++)
 	$searchParameters .= "&$finalName[$i]=";
 	for($j = 0; $j < count($final[$i]); $j++)
 	{
+		switch($finalName[$i])
+		{
+			case "without_keywords":	$finalVar = ConvertForAPI::_getKeywordId($final[$i][$j]); break;
+			case "without_genres":  	$finalVar = ConvertForAPI::_genreConvertToID($final[$i][$j]); break;
+			case "year":      			$finalVar = $final[$i][$j]; break;
+			case "with_people":			$finalVar = ConvertForAPI::_actorRedirect($final[$i][$j]); break;
+			case "with_keyword":		$finalVar = ConvertForAPI::_getKeywordId($final[$i][$j]); break;
+			case "with_genres":			$finalVar = ConvertForAPI::_genreConvertToID($final[$i][$j]); break;
+			case "with_companys":		$finalVar = ; break;
+			case "with_crew":			$finalVar = ; break;
+			case "with_cast":			$finalVar = ; break;
+			case "include_adult":		$finalVar = $final[$i][$j]; break;
+			default:break;
+		}
+		
 		if($j == 0)
-			$searchParameters .= $final[$i][$j];
+			$searchParameters .= $finalVar;
 		else
-			$searchParameters .= "%2C" . $final[$i][$j];
+			$searchParameters .= "%2C" . $finalVar;
 	}
 }
 

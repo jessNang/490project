@@ -38,7 +38,36 @@
 		$parts = explode("name/",$rawData);
 		$parts = explode("?",$parts[1]);
 		$imdbid = $parts[0];
-		return $imdbid;
+		
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.themoviedb.org/3/find/$imdbid?external_source=imdb_id&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$jsonResponse = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err)
+		{
+			echo "cURL Error #:" . $err;
+		}
+		else
+		{
+			echo $jsonResponse;
+			$tmdbid = explode("\"id\":\"", $jsonResponse);
+			$tmdbid = explode(",\"", $tmdbid[1]);
+			return $tmdbid[0];
+		}
 	}
 
 	//converts a genre into the genre ID for the TMDB api
