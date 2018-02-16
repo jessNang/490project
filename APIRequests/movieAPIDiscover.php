@@ -73,19 +73,27 @@ for($i = 0; $i < count($finalName); $i++)
 	$searchParameters .= "&$finalName[$i]=";
 	for($j = 0; $j < count($final[$i]); $j++)
 	{
+		//converts the inputs into TMDB ids that the api will recognize
 		switch($finalName[$i])
 		{
-			case "without_keywords":	$finalVar = ConvertForAPI::_getKeywordId($final[$i][$j]); break;
-			case "without_genres":  	$finalVar = ConvertForAPI::_genreConvertToID($final[$i][$j]); break;
-			case "year":      			$finalVar = $final[$i][$j]; break;
-			case "with_people":			$finalVar = ConvertForAPI::_actorRedirect($final[$i][$j]); break;
-			case "with_keyword":		$finalVar = ConvertForAPI::_getKeywordId($final[$i][$j]); break;
-			case "with_genres":			$finalVar = ConvertForAPI::_genreConvertToID($final[$i][$j]); break;
-			case "with_companys":		$finalVar = ; break;
-			case "with_crew":			$finalVar = ; break;
-			case "with_cast":			$finalVar = ; break;
-			case "include_adult":		$finalVar = $final[$i][$j]; break;
-			default:break;
+			case "without_keywords":
+			case "with_keyword":
+				$finalVar = ConvertForAPI::_getKeywordId($final[$i][$j]); break;
+			case "without_genres":
+			case "with_genres":
+				$finalVar = ConvertForAPI::_genreConvertToID($final[$i][$j]); break;
+			case "year":
+				$finalVar = $final[$i][$j]; break;
+			case "with_people":
+			case "with_crew":
+			case "with_cast":			
+				$finalVar = ConvertForAPI::_actorRedirect($final[$i][$j]); break;
+			case "with_companys":
+				$finalVar = ConvertForAPI::_companyRedirect($final[$i][$j]); break;
+			case "include_adult":
+				$finalVar = $final[$i][$j]; break;
+			default:
+				break;
 		}
 		
 		if($j == 0)
@@ -95,7 +103,7 @@ for($i = 0; $i < count($finalName); $i++)
 	}
 }
 
-echo "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false" . PHP_EOL;
+//echo "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false" . PHP_EOL;
 
 $curl = curl_init();
 

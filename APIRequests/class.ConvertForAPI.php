@@ -21,7 +21,7 @@
 		return $imdbid;
 	}
 
-	//converts an actors name into an IMDB id
+	//converts an actors name into an IMDB id then a TMDB id
 	public static function _actorRedirect($actor) {
 		$actorName = str_replace(' ', '+', $actor);
  
@@ -64,12 +64,51 @@
 		else
 		{
 			echo $jsonResponse;
-			$tmdbid = explode("\"id\":\"", $jsonResponse);
-			$tmdbid = explode(",\"", $tmdbid[1]);
-			return $tmdbid[0];
+			$parts = explode("\"id\":\"", $jsonResponse);
+			$parts = explode(",\"", $parts[1]);
+			$tmdbid = $parts[0];
+			return $tmdbid;
 		}
 	}
+	
+	//converts a company's name into a TMDB id
+	public static function _companyRedirect($company) {
+		$curl = curl_init();
 
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.themoviedb.org/3/search/company?page=1&query=$keyword&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err)
+		{
+			echo "cURL Error #:" . $err;
+		}
+		else
+		{
+			echo $response;
+			//cut out the fluff and get the first id returned
+			$parts = explode("[", $response);
+			$parts = explode("]", $parts[1]);
+			// split at },{
+			// remove { and }
+			// split at ,
+			print_r($parts);
+			return parts;
+		}
+	}
+	
 	//converts a genre into the genre ID for the TMDB api
 	public static function _genreConvertToID($genreString)
 	{
@@ -147,17 +186,21 @@
 
 		curl_close($curl);
 
-		if ($err) {
+		if ($err)
+		{
 			echo "cURL Error #:" . $err;
-		} else {
+		}
+		else
+		{
 			echo $response;
 			//cut out the fluff and get the first id returned
-			$arrayResponse = explode("[", $response);
-			$arrayResponse = explode("]", $arrayResponse[1]);
+			$parts = explode("[", $response);
+			$parts = explode("]", $parts[1]);
 			// split at },{
 			// remove { and }
 			// split at ,
-			print_r($arrayResponse);
+			print_r($parts);
+			return parts;
 		}
 	}
 }
