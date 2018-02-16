@@ -64,8 +64,8 @@
 		else
 		{
 			echo $jsonResponse;
-			$parts = explode("\"id\":\"", $jsonResponse);
-			$parts = explode(",\"", $parts[1]);
+			$parts = explode("\"id\":", $jsonResponse);
+			$parts = explode(",", $parts[1]);
 			$tmdbid = $parts[0];
 			return $tmdbid;
 		}
@@ -99,13 +99,10 @@
 		{
 			echo $response;
 			//cut out the fluff and get the first id returned
-			$parts = explode("[", $response);
-			$parts = explode("]", $parts[1]);
-			// split at },{
-			// remove { and }
-			// split at ,
-			print_r($parts);
-			return parts;
+			$parts = explode("\"id\":", $response);
+			$parts = explode(",", $parts[1]);
+			$companyid = $parts[0];
+			return $companyid;
 		}
 	}
 	
@@ -194,13 +191,10 @@
 		{
 			echo $response;
 			//cut out the fluff and get the first id returned
-			$parts = explode("[", $response);
-			$parts = explode("]", $parts[1]);
-			// split at },{
-			// remove { and }
-			// split at ,
-			print_r($parts);
-			return parts;
+			$parts = explode("\"id\":", $response);
+			$parts = explode(",", $parts[1]);
+			$keywordID = $parts[0]);
+			return $keywordid;
 		}
 	}
 }

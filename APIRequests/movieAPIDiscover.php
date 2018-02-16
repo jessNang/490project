@@ -103,7 +103,7 @@ for($i = 0; $i < count($finalName); $i++)
 	}
 }
 
-//echo "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false" . PHP_EOL;
+echo $searchParameters . PHP_EOL;
 
 $curl = curl_init();
 
