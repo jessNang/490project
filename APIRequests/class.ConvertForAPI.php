@@ -1,5 +1,9 @@
 <?php
- class ConvertForAPI {
+
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+
+class ConvertForAPI {
   
 	//converts a movie title and year to an IMDB id
 	public static function _movieRedirect($movie, $year) {
@@ -60,6 +64,8 @@
 		if ($err)
 		{
 			echo "cURL Error #:" . $err;
+			$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			$response = $clientLog->publish($requestLog);
 		}
 		else
 		{
@@ -94,6 +100,8 @@
 		if ($err)
 		{
 			echo "cURL Error #:" . $err;
+			$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			$response = $clientLog->publish($requestLog);
 		}
 		else
 		{
@@ -186,6 +194,8 @@
 		if ($err)
 		{
 			echo "cURL Error #:" . $err;
+			$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			$response = $clientLog->publish($requestLog);
 		}
 		else
 		{

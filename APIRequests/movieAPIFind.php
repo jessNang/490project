@@ -1,6 +1,9 @@
 <?php
 include 'class.ConvertForAPI.php';
 
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+
 $title = $argv[1];
 if($argc > 2)
   $year = $argv[2];
@@ -34,6 +37,8 @@ curl_close($curl);
 if ($err)
 {
 	echo "cURL Error #:" . $err;
+	$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+	$response = $clientLog->publish($requestLog);
 }
 else
 {

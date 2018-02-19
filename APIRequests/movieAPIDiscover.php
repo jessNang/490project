@@ -1,6 +1,10 @@
 <?php
 include 'class.ConvertForAPI.php';
 
+//for error logging
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 $paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -48,6 +52,8 @@ for($i = 0; $i < count($param); $i++)
 			if($offset == 1)
 			{
 				echo "Missing Arguments".PHP_EOL."Now Exiting".PHP_EOL;
+				$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: Missing Arguments" .PHP_EOL);
+				$response = $clientLog->publish($requestLog);
 				return;
 			}
 		}
@@ -105,7 +111,6 @@ for($i = 0; $i < count($finalName); $i++)
 }
 
 //echo $searchParameters . PHP_EOL;
-
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
@@ -127,6 +132,8 @@ curl_close($curl);
 if ($err)
 {
 	echo "cURL Error #:" . $err;
+	$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
+	$response = $clientLog->publish($requestLog);
 }
 else
 {
