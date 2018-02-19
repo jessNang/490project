@@ -1,8 +1,6 @@
 <html>
 <head>
         <meta charset="utf-8">
-        <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
         <link href="register.css" type="text/css" rel="stylesheet">
         <title>Registration</title>
 </head>
@@ -60,7 +58,7 @@ if(isset($_POST["submit"])){
 
 	$email=mysqli_real_escape_string($con, $_POST['email']);
 	
-	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$client = new rabbitMQClient("authentication.ini","testServer");
 	
 	if (isset($argv[1]))
 	{

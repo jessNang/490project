@@ -1,8 +1,6 @@
 <html>
 <head>
         <meta charset="utf-8">
-        <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Text" rel="stylesheet"> 
-        <link href="https://fonts.googleapis.com/css?family=Julius+Sans+One" rel="stylesheet">
         <link href="login.css" type="text/css" rel="stylesheet">
         <title>Login</title>
 </head>
@@ -36,7 +34,7 @@ $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_e
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
 	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
-	$client = new rabbitMQClient("testRabbitMQ.ini","testServer");
+	$client = new rabbitMQClient("authentication.ini","testServer");
 
         if (isset($argv[1]))
         {
