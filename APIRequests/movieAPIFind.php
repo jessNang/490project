@@ -1,8 +1,8 @@
 <?php
 include 'class.ConvertForAPI.php';
 
-$clientLog = new rabbitMQClient("logging.ini","testServer");
-$logger = new Logger();
+//$clientLog = new rabbitMQClient("logging.ini","testServer");
+//$logger = new Logger();
 
 $title = $argv[1];
 if($argc > 2)
@@ -12,9 +12,9 @@ else
 
 $imdbid = ConvertForApi::_movieRedirect($title, $year);
 
-echo "title: " . $title . PHP_EOL;
-echo "year: " . $year . PHP_EOL;
-echo "imdbid: " . $imdbid . PHP_EOL;
+//echo "title: " . $title . PHP_EOL;
+//echo "year: " . $year . PHP_EOL;
+//echo "imdbid: " . $imdbid . PHP_EOL;
 
 $curl = curl_init();
 
@@ -37,14 +37,33 @@ curl_close($curl);
 if ($err)
 {
 	echo "cURL Error #:" . $err;
-	$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
-	$response = $clientLog->publish($requestLog);
+	//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+	//$error = $clientLog->publish($requestLog);
 }
 else
 {
-	echo $jsonResponse;
-	//$arrayResponse = ConvertToArray::_jsonConvert($jsonResponse);
-	//print_r($arrayResponse);
+	//echo $jsonResponse;
+	$parts = explode("}],", $jsonResponse);
+	$parts = explode(":[{", $parts[0]);
+	$parts = explode(",\"", $parts[1]);	
+	
+	for($i = 0; $i < count($parts); $i++)
+	{
+		$chunk = explode("\":",$parts[$i]);
+		$chunk[0] = trim($chunk[0], "\"");
+		$chunk[1] = trim($chunk[1], "\"");
+		$arrayResponse[$chunk[0]] = $chunk[1];
+	}
+	
+	$arrayResponse["genre_ids"] = trim($arrayResponse["genre_ids"], "[]");
+	$arrayResponse["genre_ids"] = explode(",", $arrayResponse["genre_ids"]);
+
+	for($i = 0; $i < count($arrayResponse["genre_ids"]); $i++)
+	{
+		$arrayResponse["genre_ids"][$i] = ConvertForApi::_genreConvertToString($arrayResponse["genre_ids"][$i]);
+	}
+
+	print_r($arrayResponse);
 }
 
 ?>
