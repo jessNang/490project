@@ -2,8 +2,14 @@
 include 'class.ConvertForAPI.php';
 
 //for error logging
-//$clientLog = new rabbitMQClient("logging.ini","testServer");
-//$logger = new Logger();
+/*
+require_once('/home/git/rabbitmq_example/path.inc');
+require_once('/home/git/rabbitmq_example/get_host_info.inc');
+require_once('/home/git/rabbitmq_example/rabbitMQLib.inc');
+require_once('/home/Desktop/490project/logger.inc');
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+*/
 
 $param = array(false,false,false,false,false,false,false,false,false,false);
 $paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -52,8 +58,8 @@ for($i = 0; $i < count($param); $i++)
 			if($offset == 1)
 			{
 				echo "Missing Arguments".PHP_EOL."Now Exiting".PHP_EOL;
-				//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: Missing Arguments" .PHP_EOL);
-				//$response = $clientLog->publish($requestLog);
+				$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: Missing Arguments" .PHP_EOL);
+				$response = $clientLog->publish($requestLog);
 				return;
 			}
 		}
@@ -143,7 +149,7 @@ else
 	
 	for($i = 0; $i < count($parts); $i++)
 	{
-		$parts[$i] = trim($parts[$i], "{}]");
+		$parts[$i] = trim($parts[$i], "{}]\\");
 		$masterArray[$i] = explode(",\"", $parts[$i]);
 		
 		for($j = 0; $j < count($masterArray[$i]); $j++)
@@ -157,6 +163,9 @@ else
 	
 	for($i = 0; $i < count($arrayResponse); $i++)
 	{
+		$arrayResponse[$i]["poster_path"] = trim($arrayResponse[$i]["poster_path"], "\\");
+		$arrayResponse[$i]["backdrop_path"] = trim($arrayResponse[$i]["backdrop_path"], "\\");
+		
 		$arrayResponse[$i]["genre_ids"] = trim($arrayResponse[$i]["genre_ids"], "[]");
 		$arrayResponse[$i]["genre_ids"] = explode(",", $arrayResponse[$i]["genre_ids"]);
 

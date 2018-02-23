@@ -1,8 +1,13 @@
 <?php
-
-//$clientLog = new rabbitMQClient("logging.ini","testServer");
-//$logger = new Logger();
-
+/*
+//for error logging
+require_once('~/git/rabbitmq_example/path.inc');
+require_once('~/git/rabbitmq_example/get_host_info.inc');
+require_once('~/git/rabbitmq_example/rabbitMQLib.inc');
+require_once('~/Desktop/490project/logger.inc');
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+*/
 class ConvertForAPI {
   
 	//converts a movie title and year to an IMDB id
@@ -100,8 +105,8 @@ class ConvertForAPI {
 		if ($err)
 		{
 			echo "cURL Error #:" . $err;
-			//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
-			//$response = $clientLog->publish($requestLog);
+			$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			$response = $clientLog->publish($requestLog);
 		}
 		else
 		{

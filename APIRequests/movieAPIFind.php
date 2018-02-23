@@ -1,9 +1,14 @@
 <?php
 include 'class.ConvertForAPI.php';
-
-//$clientLog = new rabbitMQClient("logging.ini","testServer");
-//$logger = new Logger();
-
+/*
+//for error logging
+require_once('/home/git/rabbitmq_example/path.inc');
+require_once('/home/git/rabbitmq_example/get_host_info.inc');
+require_once('/home/git/rabbitmq_example/rabbitMQLib.inc');
+require_once('/home/Desktop/490project/logger.inc');
+$clientLog = new rabbitMQClient("logging.ini","testServer");
+$logger = new Logger();
+*/
 $title = $argv[1];
 if($argc > 2)
   $year = $argv[2];
