@@ -140,7 +140,31 @@ else
 	//echo $jsonResponse;
 	$parts = explode("lts\":[", $jsonResponse);
 	$parts = explode("},{", $parts[1]);
-	$masterArray = $parts;
+	
+	for($i = 0; $i < count($parts); $i++)
+	{
+		$parts[$i] = trim($parts[$i], "{}]");
+		$masterArray[$i] = explode(",\"", $parts[$i]);
+		
+		for($j = 0; $j < count($masterArray[$i]); $j++)
+		{
+			$chunk = explode("\":",$masterArray[$i][$j]);
+			$chunk[0] = trim($chunk[0], "\"");
+			$chunk[1] = trim($chunk[1], "\"");
+			$arrayResponse[$i][$chunk[0]] = $chunk[1];
+		}
+	}
+	
+	for($i = 0; $i < count($arrayResponse); $i++)
+	{
+		$arrayResponse[$i]["genre_ids"] = trim($arrayResponse[$i]["genre_ids"], "[]");
+		$arrayResponse[$i]["genre_ids"] = explode(",", $arrayResponse[$i]["genre_ids"]);
+
+		for($j = 0; $j < count($arrayResponse[$i]["genre_ids"]); $j++)
+		{
+			$arrayResponse[$i]["genre_ids"][$j] = ConvertForApi::_genreConvertToString($arrayResponse[$i]["genre_ids"][$j]);
+		}
+	}
 	
 	print_r($arrayResponse);
 }
