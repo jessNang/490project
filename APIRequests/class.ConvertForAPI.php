@@ -105,8 +105,8 @@ class ConvertForAPI {
 		if ($err)
 		{
 			echo "cURL Error #:" . $err;
-			$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
-			$response = $clientLog->publish($requestLog);
+			//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			//$response = $clientLog->publish($requestLog);
 		}
 		else
 		{
