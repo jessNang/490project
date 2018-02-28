@@ -11,13 +11,15 @@ if(!isset($_SESSION["sess_user"])){
 	<meta charset="utf-8">
 	<title>Welcome</title>
 	<link rel="stylesheet" href="welcome.css">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 <body>
 	<nav>
 		<ul class="main_menu">
 			<li><a href="welcome.php">Home</a></li>
-			<li><a href="#">Action</a></li>
-			<li><a href="#">Adventure</a></li>
+			<li><a href="#">Upcoming</a></li>
+			<li><a href="#">Classics</a></li>
 			<li><a href="#">Comedy</a></li>
 			<li><a href="#">Family</a></li>
 			<li><a href="#">Horror</a></li>
@@ -25,6 +27,7 @@ if(!isset($_SESSION["sess_user"])){
 				<input type="search" placeholder"search...">
 				<a href="#" class="fa fa-search"></a>
 			</form></li>
+			<li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
 			<li><a href="logout.php">Logout</a></li>
 		</ul>
 	</nav>
