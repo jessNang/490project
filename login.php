@@ -25,6 +25,7 @@ include("account.php");
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+require_once('logger.inc');
 
 $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
 
@@ -35,6 +36,8 @@ if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
 	$pass=mysqli_real_escape_string($con, $_POST['password']);
 	$client = new rabbitMQClient("authentication.ini","testServer");
+	$clientLog= new rabbitMQClient("logging.ini","testServer");
+	$logger = new Logger();
 
         if (isset($argv[1]))
         {
@@ -69,6 +72,11 @@ if(isset($_POST["submit"])){
 			}	
 		} 
 		else {
+#			echo "Invalid username or password!";
+			$er="Invalid username or password!";
+			$requestLog = $logger->logArray( date('m/d/Y H:i:s a', time()). " ".gethostname(). ": ".PHP_EOL."Error occured in ". __FILE__. " LINE ". __LINE__.PHP_EOL."Error Code: ".$er.PHP_EOL);
+
+                        $responseLog = $client->publish($requestLog);
 			echo "Invalid username or password!";
 		}
 	}
