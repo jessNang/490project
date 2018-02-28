@@ -6,7 +6,7 @@ require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
 
-$client = new rabbitMQClient("../../../git/rabbitmqphp_example/testRabbitMQ.ini","testServer");
+$client = new rabbitMQClient("../logging.ini","testServer");
 
 $request = array();
 
