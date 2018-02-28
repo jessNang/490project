@@ -10,16 +10,15 @@ $clientLog = new rabbitMQClient("logging.ini","testServer");
 $logger = new Logger();
 */
 
-class movieAPIUpcoming {
+class movieAPICurrentReleases {
 
-	public static function _movieUpcoming($pagenum = 1) {
-
+	public static function _movieCurrent($pagenum = 1) {
+		
 		$page = "page=$pagenum";
-
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://api.themoviedb.org/3/movie/upcoming?$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
+		  CURLOPT_URL => "https://api.themoviedb.org/3/movie/now_playing?$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_ENCODING => "",
 		  CURLOPT_MAXREDIRS => 10,

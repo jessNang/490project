@@ -14,7 +14,7 @@ $logger = new Logger();
 
 class movieAPIDiscover {
 
-	public static function _movieDiscover($parameters) {
+	public static function _movieDiscover($parameters, $pagenum = 1) {
 
 		$param = array(false,false,false,false,false,false,false,false,false,false);
 		$paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -122,10 +122,12 @@ class movieAPIDiscover {
 		}
 
 		//echo $searchParameters . PHP_EOL;
+
+		$page = "page=$pagenum";
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=1&include_video=false",
+			CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&$page&include_video=false",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
