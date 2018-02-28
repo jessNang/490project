@@ -1,14 +1,14 @@
 <?php
 include_once 'class.ConvertForAPI.php';
-/*
+
 //for error logging
-require_once('/home/git/rabbitmq_example/path.inc');
-require_once('/home/git/rabbitmq_example/get_host_info.inc');
-require_once('/home/git/rabbitmq_example/rabbitMQLib.inc');
-require_once('/home/Desktop/490project/logger.inc');
-$clientLog = new rabbitMQClient("logging.ini","testServer");
-$logger = new Logger();
-*/
+require_once('../../../git/rabbitmqphp_example/path.inc');
+require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
+require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
+
+$client = new rabbitMQClient("../logging.ini","testServer");
+
+$request = array();
 
 class movieAPIFind {
 
@@ -48,8 +48,12 @@ class movieAPIFind {
 		if ($err)
 		{
 			echo "cURL Error #:" . $err; 
-			//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
-			//$error = $clientLog->publish($requestLog);
+			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
+			
+			$request['type'] = "error";
+			$request['data'] = $error;
+
+			$client->send_request($request);
 			return $err;
 		}
 		else
