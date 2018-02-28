@@ -15,7 +15,6 @@ function checkPwd(){
                 document.getElementById("mismatch").style.display="block";
                 confPassword.value="";
         }
-
         if(confPassword.value == password.value){
                 document.getElementById("mismatch").style.display="none";
         }
@@ -49,26 +48,22 @@ include("account.php");
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-
 $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
-#	$pass=password_hash((mysqli_real_escape_string($con, $_POST['password'])), PASSWORD_DEFAULT);
-
+	$pass=password_hash((mysqli_real_escape_string($con, $_POST['password'])), PASSWORD_DEFAULT);
 	$email=mysqli_real_escape_string($con, $_POST['email']);
 	
 	$client = new rabbitMQClient("authentication.ini","testServer");
 	
 	if (isset($argv[1]))
 	{
-  		$msg = $argv[1];
+ 		$msg = $argv[1];
 	}
 	else
 	{
   		$msg = "test message";
 	}
-
 	$request = array();
 	$request['type'] = "Register";
 	$request['username'] = $user;
@@ -83,7 +78,6 @@ if(isset($_POST["submit"])){
 		#if the user isn't in the database add them
 		if($numrows==0){
 			$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
-
 			$result=mysqli_query($con, $sql);
 			if($result){
 				echo "Account Successfully Created";

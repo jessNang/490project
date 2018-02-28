@@ -33,7 +33,7 @@ $con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_e
 #else if incorrect -> displays that the password or username they entered is incorrect
 if(isset($_POST["submit"])){
 	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=sha1(mysqli_real_escape_string($con, $_POST['password']));
+	$pass=mysqli_real_escape_string($con, $_POST['password']);
 	$client = new rabbitMQClient("authentication.ini","testServer");
 
         if (isset($argv[1]))
@@ -46,22 +46,24 @@ if(isset($_POST["submit"])){
         }
 
         $request = array();
-        $request['type'] = "Login";
+        $request['type'] = "login";
         $request['username'] = $user;
         $request['password'] = $pass;
         $response = $client->send_request($request);
 
         if($response == true){
-		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."' AND passwd='".$pass."'");
+		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
 		$numrows=mysqli_num_rows($query);
 		if($numrows!=0){
 			while($row=mysqli_fetch_assoc($query)){
 				$dbusername=$row['name'];
 				$dbpassword=$row['passwd'];
+				$dbemail=$row['email'];
 			}
-			if($user == $dbusername && $pass == $dbpassword){
+			if(($user == $dbusername) && (password_verify($pass,$dbpassword))){
 				session_start();
 				$_SESSION['sess_user']=$user;
+				$_SESSION['sess_email']=$dbemail;
 				//redirect browser
 				header("Location:welcome.php");
 			}	
