@@ -30,6 +30,43 @@ class ConvertForAPI {
 		return $imdbid;
 	}
 
+	//converts a movie IMDB id into a TMDB id
+	public static function _movieIMDBtoTMDB($imdbid) {
+		
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.themoviedb.org/3/find/$imdbid?external_source=imdb_id&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$jsonResponse = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err)
+		{
+			echo "cURL Error #:" . $err;
+			//$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: cURL Error #:" . $err.PHP_EOL);
+			//$response = $clientLog->publish($requestLog);
+		}
+		else
+		{
+			//echo $jsonResponse;
+			$parts = explode("\"id\":", $jsonResponse);
+			$parts = explode(",", $parts[1]);
+			$tmdbid = $parts[0];
+			return $tmdbid;
+		}
+	}
+
 	//converts an actors name into an IMDB id then a TMDB id
 	public static function _actorRedirect($actor) {
 		$actorName = str_replace(' ', '+', $actor);
