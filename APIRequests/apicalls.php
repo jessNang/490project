@@ -12,45 +12,46 @@ require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
 
 $client = new rabbitMQClient("../../../git/rabbitmqphp_example/testRabbitMQ.ini","testServer");
 
-$request = array();
+$response = array();
+
+$request=info; //this gets the request from the queue
+
+switch($request['type'])
+{
+
+	case "discover":	$discoverParams = $request['params']; //place holder data. get from queue
+				$page = $request['page']; //get from queue
+				$response['type'] = "discover";
+				$response['data'] = movieAPIDiscover::_movieDiscover($discoverParams, $page);
+				break;
+	case "find":		$findParams = $$request['params']; //place holder data. get from queue
+				$response['type'] = "find";
+				$response['data'] = movieAPIFind::_moviefind($findParams);
+				break;
+	case "recommend":	$recommendParams = $request['params']; //place holder data. get from queue
+				$page = $request['page']; //get from queue
+				$response['type'] = "recommend";
+				$response['data'] = movieAPIRecommendations::_movieRecommend($recommendParams, $page);
+				break;
+	case "upcoming":	$page = $request['page']; //get from queue
+				$response['type'] = "upcoming";
+				$response['data'] = movieAPIUpcoming::_movieUpcoming($page);
+				break;
+	case "current":		$page = $request['page']; //get from queue
+				$response['type'] = "current";
+				$response['data'] = movieAPICurrentReleases::_movieCurrent($page);
+				break;
+	case "classics":	$page = $request['page']; //get from queue
+				$response['type'] = "classics";
+				$response['data'] = movieAPICurrentReleases::_movieClassics($page);
+				break;
+	default
+}
 
 
-$discoverParams = ["-company", "Disney", "-people", "harrison ford"];
-$discover = movieAPIDiscover::_movieDiscover($discoverParams);
+
+$client->publish($response);
 
 
-$request['type'] = "discover";
-$request['data'] = $discover;
-
-$client->send_request($request);
-
-
-/*
-$findParams = ["avatar", "2009"];
-$recommendParams = ["godzilla"];
-
-$find = movieAPIFind::_moviefind($findParams);
-$recommend = movieAPIRecommendations::_movieRecommend($recommendParams);
-$upcoming = movieAPIUpcoming::_movieUpcoming();
-$current = movieAPICurrentReleases::_movieCurrent();
-
-print( "find" . PHP_EOL);
-print_r($find);
-echo PHP_EOL;
-
-print( "recommend" . PHP_EOL);
-print_r($recommend);
-echo PHP_EOL;
-
-print( "upcoming" . PHP_EOL);
-print_r($upcoming);
-echo PHP_EOL;
-
-print( "current" . PHP_EOL);
-print_r($current);
-echo PHP_EOL;
-*/
-
-exit();
 ?>
 
