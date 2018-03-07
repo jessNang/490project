@@ -9,7 +9,7 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
         <meta charset="utf-8">
-        <title>Classics</title>
+        <title>Now Playing</title>
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -40,7 +40,7 @@ require_once('rabbitMQLib.inc');
 $client = new rabbitMQClient("dmz.ini","testServer");
 
 $request = array();
-$request['type'] = "classics";
+$request['type'] = "current";
 $response = $client->send_request($request);
 
 if($response == true){

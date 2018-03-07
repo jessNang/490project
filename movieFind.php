@@ -9,7 +9,7 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
         <meta charset="utf-8">
-        <title>Classics</title>
+        <title>Movie</title>
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -37,34 +37,34 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+$category = $_POST['category'];
 $client = new rabbitMQClient("dmz.ini","testServer");
 
 $request = array();
-$request['type'] = "classics";
+$request['type'] = "find";
+$request['params'] = "$category";
 $response = $client->send_request($request);
 
 if($response == true){
-        foreach($response['data'] as $movie){
-                echo "<br>";
-                foreach($movie as $key => $value){
-                        if($key=="poster_path"){
-                                echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
-                                echo "<br>";
-                        }
-                }
-
-                foreach($movie as $key => $value){
-                        if($key=="title"){
-                                echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
-                        }
-
-                        if($key=="release_date"){
-                                echo "Release Date: $value<br>";
-                        }
-                }
+	foreach($movie as $key => $value){
+        	if($key=="poster_path"){
+                	echo "<table style='width:90%'><td><img src='https://image.tmdb.org/t/p/w300".$value."'></td>"; 
+                        echo "<br>";
+                }       
         }
-}
+	foreach($response['data'] as $key => $value){
+                if($key=="title"){
+                        echo "<td>$value<br><br>";
+                }
 
+		if($key=="release_date"){
+			echo "Release Date: $value<br>";
+		}
+		if($key=="overview"){
+                        echo "Overview: $value<br></td></tr></table>";
+                }
+	}
+}
 ?>
 </body>
 </html>

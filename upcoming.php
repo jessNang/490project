@@ -47,12 +47,19 @@ if($response == true){
 	foreach($response['data'] as $movie){
 		echo "<br>";
 		foreach($movie as $key => $value){
+                        if($key=="poster_path"){
+                                echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
+                                echo "<br>";
+                        }
+		}
+
+		foreach($movie as $key => $value){
                         if($key=="title"){
-                                echo "$key: $value<br>";
+                                echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
                         }
 
 			if($key=="release_date"){
-				echo "$key: $value<br>";
+				echo "Release Date: $value<br>";
 			}
 		}
 	}
