@@ -20,66 +20,32 @@
         </div>
 
 <?php
-#connecting to database
-include("account.php");
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-require_once('logger.inc');
 
-$con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
-
-#checks to see if the username and password the user entered is correct
-#if correct -> logs user in, starts a session, and brings them to the welcome page
-#else if incorrect -> displays that the password or username they entered is incorrect
 if(isset($_POST["submit"])){
-	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=mysqli_real_escape_string($con, $_POST['password']);
-	$client = new rabbitMQClient("authentication.ini","testServer");
-	$clientLog= new rabbitMQClient("logging.ini","testServer");
-	$logger = new Logger();
-
-        if (isset($argv[1]))
-        {
-                $msg = $argv[1];
-        }
-        else
-        {
-                $msg = "test message";
-        }
-
-        $request = array();
+	$user=$_POST['user'];
+	$pass=$_POST['password'];
+	$client = new rabbitMQClient("db.ini","testServer");
+        
+	$request = array();
         $request['type'] = "login";
         $request['username'] = $user;
         $request['password'] = $pass;
         $response = $client->send_request($request);
-
-        if($response == true){
-		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
-		$numrows=mysqli_num_rows($query);
-		if($numrows!=0){
-			while($row=mysqli_fetch_assoc($query)){
-				$dbusername=$row['name'];
-				$dbpassword=$row['passwd'];
-				$dbemail=$row['email'];
-			}
-			if(($user == $dbusername) && (password_verify($pass,$dbpassword))){
-				session_start();
-				$_SESSION['sess_user']=$user;
-				$_SESSION['sess_email']=$dbemail;
-				//redirect browser
-				header("Location:welcome.php");
-			}	
-		} 
-		else {
-#			echo "Invalid username or password!";
-			$er="Invalid username or password!";
-			$requestLog = $logger->logArray( date('m/d/Y H:i:s a', time()). " ".gethostname(). ": ".PHP_EOL."Error occured in ". __FILE__. " LINE ". __LINE__.PHP_EOL."Error Code: ".$er.PHP_EOL);
-
-                        $responseLog = $client->publish($requestLog);
-			echo "Invalid username or password!";
-		}
+	
+	if($response['valid'] === true){
+		session_start();
+                $_SESSION['sess_user']=$response['userName'];
+		$_SESSION['sess_email']=$response['em'];
+                //redirect browser
+                header("Location:welcome.php");
 	}
+	else{
+		echo "Invalid username or password";
+	}
+
 }
 ?>
 

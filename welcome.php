@@ -18,14 +18,13 @@ if(!isset($_SESSION["sess_user"])){
 	<nav>
 		<ul class="main_menu">
 			<li><a href="welcome.php">Home</a></li>
-			<li><a href="#">Upcoming</a></li>
-			<li><a href="#">Classics</a></li>
-			<li><a href="#">Comedy</a></li>
-			<li><a href="#">Family</a></li>
-			<li><a href="#">Horror</a></li>
+			<li><a href="nowplaying.php">Now Playing</a><li>
+			<li><a href="upcoming.php">Upcoming</a></li>
+			<li><a href="classics.php">Classics</a></li>
+			<li><a href="discover.php">Discover</a></li>
 			<li><form>
 				<input type="search" placeholder"search...">
-				<a href="#" class="fa fa-search"></a>
+				<a href="find.php" class="fa fa-search"></a>
 			</form></li>
 			<li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
 			<li><a href="logout.php">Logout</a></li>
