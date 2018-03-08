@@ -28,7 +28,12 @@ class Logger
 
 	public function logArray($type,$info,$file)
 	{
-		#example usage: logArray('error',$errorMessage,__FILE__)
+		# example usage:
+		# require_once(logger.inc);
+		# $logClient = new rabbitMQClient('toLog.ini', 'testServer');
+		# $logger = new Logger();
+		# $sendLog = $logger->logArray('error',$errorMessage,__FILE__);
+		# $logClient->publish($sendLog);
 
 		$request = array();
 		if ($type == 'error')
