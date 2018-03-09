@@ -5,7 +5,7 @@ require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
 
-$clientLog = new rabbitMQClient("../logging.ini","testServer");
+$clientLog = new rabbitMQClient("../toLog.ini","testServer");
 $request = array();
 
 class ConvertForAPI {
