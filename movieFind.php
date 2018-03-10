@@ -36,14 +36,20 @@ if(!isset($_SESSION["sess_user"])){
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-
-$category = $_POST['category'];
+$title=$_POST['category'];
+echo "Title: $title";
+$category = array();
+array_push($category, $title);
+//$category = array($_POST['category']);
 $client = new rabbitMQClient("dmz.ini","testServer");
 
+print_r($category);
 $request = array();
 $request['type'] = "find";
-$request['params'] = "$category";
+$request['params'] = $category;
+$request['page'] = "";
 $response = $client->send_request($request);
+print_r($request);
 
 if($response == true){
 	foreach($movie as $key => $value){
@@ -66,9 +72,9 @@ if($response == true){
 	}
 }
 
-$request1 = array();
+/*$request1 = array();
 $request1['type'] = "recommend";
-$request1['params'] = "$category";
+$request1['params'] = $category;
 $response1 = $client->send_request($request1);
 
 if($response1 == true){
@@ -84,7 +90,7 @@ if($response1 == true){
 
                 foreach($movie as $key => $value){
                         if($key=="title"){
-                                echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
+                                echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
                         }
 
                         if($key=="release_date"){
@@ -92,7 +98,7 @@ if($response1 == true){
                         }
                 }
         }
-}
+}*/
 
 ?>
 </body>

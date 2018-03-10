@@ -41,6 +41,7 @@ $client = new rabbitMQClient("dmz.ini","testServer");
 
 $request = array();
 $request['type'] = "upcoming";
+$request['page'] = "";
 $response = $client->send_request($request);
 
 if($response == true){
@@ -55,7 +56,7 @@ if($response == true){
 
 		foreach($movie as $key => $value){
                         if($key=="title"){
-                                echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
+                                echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
                         }
 
 			if($key=="release_date"){

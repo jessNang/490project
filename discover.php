@@ -53,36 +53,44 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 if(isset($_POST["submit"])){
-        $mergedArray;
+        $mergedArray = array();
         if($_POST['cast']!=""){
                 $cast = explode(",",$_POST['cast']);
-                $baseCast = array("0" => "-cast");
-                $mergedArray+=$baseCast;
-                $mergedArray+=$cast;
+                $baseCast = "-cast";
+                array_push($mergedArray,$baseCast);
+		for($i=0;$i<count($cast);$i++){
+			array_push($mergedArray,$cast[$i]);
+		}
         }
         if($_POST['keyword']!=""){
                 $keyword = explode(" ", $_POST['keyword']);
-                $baseKeyword = array("0" => "-keyword");
-                $mergedArray+=$baseKeyword;
-                $mergedArray+=$keyword;
+                $baseKeyword = "-keyword";
+                array_push($mergedArray,$baseKeyword);
+		for($i=0;$i<count($keyword);$i++){
+                        array_push($mergedArray,$keyword[$i]);
+                }
         }
         if($_POST['year']!=""){
                 $year = $_POST['year'];
-                $yArray = array("0" => "$year");
-                $mergedArray+=$yArray;
+                $yArray = $year;
+		$baseYear = "-year";
+                array_push($mergedArray,$baseYear,$yArray);
         }
         if($_POST['genre']!=""){
                 $genre = explode(",", $_POST['genre']);
-                $baseGenre = array("0" => "-genre");
-                $mergedArray+=$baseGenre;
-                $mergedArray+=$genre;
+                $baseGenre = "-genre";
+                array_push($mergedArray,$baseGenre);
+		for($i=0;$i<count($genre);$i++){
+                        array_push($mergedArray,$genre[$i]);
+                }
 	}
         $client = new rabbitMQClient("dmz.ini","testServer");
 
         $request = array();
         $request['type'] = "discover";
-        $request['params']= "$mergedArray";
-        $response = $client->send_request($request);
+        $request['params']= $mergedArray;
+        $request['page']="";
+	$response = $client->send_request($request);
 
         if($response == true){
                 foreach($response['data'] as $movie){

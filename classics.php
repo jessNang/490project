@@ -9,7 +9,7 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
         <meta charset="utf-8">
-        <title>Classics</title>
+        <title>Upcoming</title>
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -41,30 +41,30 @@ $client = new rabbitMQClient("dmz.ini","testServer");
 
 $request = array();
 $request['type'] = "classics";
+$request['page'] = "";
 $response = $client->send_request($request);
 
 if($response == true){
-        foreach($response['data'] as $movie){
-                echo "<br>";
-                foreach($movie as $key => $value){
+	foreach($response['data'] as $movie){
+		echo "<br>";
+		foreach($movie as $key => $value){
                         if($key=="poster_path"){
                                 echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
                                 echo "<br>";
                         }
-                }
+		}
 
-                foreach($movie as $key => $value){
+		foreach($movie as $key => $value){
                         if($key=="title"){
-                                echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
+                                echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
                         }
 
-                        if($key=="release_date"){
-                                echo "Release Date: $value<br>";
-                        }
-                }
-        }
+			if($key=="release_date"){
+				echo "Release Date: $value<br>";
+			}
+		}
+	}
 }
-
 ?>
 </body>
 </html>

@@ -9,7 +9,7 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
         <meta charset="utf-8">
-        <title>Now Playing</title>
+        <title>Find</title>
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -37,35 +37,20 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-$client = new rabbitMQClient("dmz.ini","testServer");
-
 $request = array();
-$request['type'] = "current";
-$request['page']="";
+$request['type'] = "find";
 $response = $client->send_request($request);
 
 if($response == true){
-        foreach($response['data'] as $movie){
-                echo "<br>";
-                foreach($movie as $key => $value){
-                        if($key=="poster_path"){
-                                echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
-                                echo "<br>";
-                        }
-                }
-
-                foreach($movie as $key => $value){
-                        if($key=="title"){
-                                echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
-                        }
-
-                        if($key=="release_date"){
-                                echo "Release Date: $value<br>";
-                        }
-                }
-        }
+	foreach($response as $movie){
+		echo "<br>";
+		foreach($movie as $key => $value){
+			if(($key=="title")||($key=="release_date")){
+				echo "$key: $value<br>";
+			}
+		}
+	}
 }
-
 ?>
 </body>
 </html>
