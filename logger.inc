@@ -40,13 +40,13 @@ class Logger
 		{
 			$request['type'] = $type;
 			$request['error'] = $info;
-			$request['file'] = $file;
+			$request['file'] = $file.' on '.gethostname();
 		}
 		else 
 	 	{
 			 $request['type'] = $type;
 			 $request['event'] = $info;
-			 $request['file'] = $file;
+			 $request['file'] = $file.' on '.gethostname();
 
 		}
 			 return $request;
