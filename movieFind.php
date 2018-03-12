@@ -68,6 +68,16 @@ if($response == true){
 			echo "Release Date: $value<br><br>";
 		}
 	}
+	
+	foreach($response['data'] as $key => $value){
+                if($key=="genre_ids"){
+			echo "Genre: ";
+			foreach($value as $innerRow => $val){
+				echo "$val ";
+			}
+			echo "<br><br>";
+                }
+        }
 	foreach($response['data'] as $key => $value){
 		if($key=="overview"){
                         #echo "Overview: $value<br></td></tr></table><br>";
@@ -76,37 +86,6 @@ if($response == true){
 	}
 }
 
-
-/*
-$request1 = array();
-$request1['type'] = "recommend";
-$request1['params'] = $category;
-$request1['page'] = "";
-$response1 = $client->send_request($request1);
-
-if($response1 == true){
-	echo "Movie Reccomendations";
-        foreach($response1['data'] as $movie){
-                echo "<br>";
-                foreach($movie as $key => $value){
-                        if($key=="poster_path"){
-                                echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
-                                echo "<br>";
-                        }
-                }
-
-                foreach($movie as $key => $value){
-                        if($key=="title"){
-                                echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
-                        }
-
-                        if($key=="release_date"){
-                                echo "Release Date: $value<br>";
-                        }
-                }
-        }
-}
-*/
 echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 
 ?>
