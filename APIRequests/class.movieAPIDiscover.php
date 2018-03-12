@@ -27,7 +27,7 @@ class movieAPIDiscover {
 		$finalName = array();
 
 		//figures out which of the discover fields are being used
-		for($i = 1; $i < count($parameters); $i++)
+		for($i = 0; $i < count($parameters); $i++)
 		{
 			if(substr($parameters[$i],0,1) == "-")
 			{
@@ -76,6 +76,7 @@ class movieAPIDiscover {
 		
 		//removes the empty indexes from the arrays so only the used discover fields are included
 		$finalcount = 0;
+
 		for($i = 0; $i < count($param); $i++)
 		{
 			if($param[$i])
@@ -86,7 +87,7 @@ class movieAPIDiscover {
 				$finalcount++;
 			}
 		}
-
+		
 		//generates the string of search parameters
 		$searchParameters = '';
 		for($i = 0; $i < count($finalName); $i++)
@@ -122,7 +123,9 @@ class movieAPIDiscover {
 				else
 					$searchParameters .= "%2C" . $finalVar;
 			}
-		}		
+			
+			
+		}
 
 		//print( "search parameters: " .$searchParameters. PHP_EOL);
 		$page = "page=$pagenum";

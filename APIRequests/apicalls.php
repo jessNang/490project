@@ -38,7 +38,7 @@ function requestProcessor($request)
 		case "discover":	$discoverParams = $request['params']; //place holder data. get from queue
 					$page = $request['page']; //get from queue
 					$response['type'] = "discover";
-
+					
 					$response['data'] = movieAPIDiscover::_movieDiscover($discoverParams, $page);
 
 					$eventMessage = "Processing api request: " .$request['type'];
