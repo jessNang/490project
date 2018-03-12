@@ -5,8 +5,7 @@ include_once 'class.ConvertForAPI.php';
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
-
-$client = new rabbitMQClient("../toLog.ini","testServer");
+require_once('../logger.inc');
 
 $request = array();
 
@@ -15,6 +14,10 @@ class movieAPIDiscover {
 
 	public static function _movieDiscover($parameters, $pagenum = 1) {
 
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();	
+
+		//print_r($parameters);
 		$param = array(false,false,false,false,false,false,false,false,false,false);
 		$paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 		$paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -62,14 +65,15 @@ class movieAPIDiscover {
 					if($offset == 1)
 					{
 						echo "Missing Arguments".PHP_EOL."Now Exiting".PHP_EOL;
-						$requestLog = $logger ->logArray( date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." Error Code: Missing Arguments" .PHP_EOL);
-						$clientLog->publish($requestLog);
+						$eventMessage = "Missing Arguments";
+        					$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+						$testVar = $logClient->publish($sendLog);
 						return;
 					}
 				}
 			}
 		}
-
+		
 		//removes the empty indexes from the arrays so only the used discover fields are included
 		$finalcount = 0;
 		for($i = 0; $i < count($param); $i++)
@@ -118,10 +122,9 @@ class movieAPIDiscover {
 				else
 					$searchParameters .= "%2C" . $finalVar;
 			}
-		}
+		}		
 
-		//echo $searchParameters . PHP_EOL;
-
+		//print( "search parameters: " .$searchParameters. PHP_EOL);
 		$page = "page=$pagenum";
 		$curl = curl_init();
 
@@ -147,11 +150,9 @@ class movieAPIDiscover {
 			
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{

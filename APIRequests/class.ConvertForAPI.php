@@ -4,8 +4,8 @@
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
+require_once('../logger.inc');
 
-$clientLog = new rabbitMQClient("../toLog.ini","testServer");
 $request = array();
 
 class ConvertForAPI {
@@ -33,6 +33,9 @@ class ConvertForAPI {
 	//converts a movie IMDB id into a TMDB id
 	public static function _movieIMDBtoTMDB($imdbid) {
 		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -56,11 +59,9 @@ class ConvertForAPI {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{
@@ -74,6 +75,10 @@ class ConvertForAPI {
 
 	//converts an actors name into an IMDB id then a TMDB id
 	public static function _actorRedirect($actor) {
+		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
 		$actorName = str_replace(' ', '+', $actor);
  
 	   	$page = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
@@ -113,11 +118,9 @@ class ConvertForAPI {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{
@@ -132,6 +135,10 @@ class ConvertForAPI {
 	
 	//converts a company's name into a TMDB id
 	public static function _companyRedirect($company) {
+		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -155,11 +162,9 @@ class ConvertForAPI {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{
@@ -231,6 +236,10 @@ class ConvertForAPI {
 	//convert a search word into a TMDB keyword id
 	public static function _getKeywordId($keyword)
 	{
+		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -254,10 +263,9 @@ class ConvertForAPI {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{

@@ -5,8 +5,7 @@ include_once 'class.ConvertForAPI.php';
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
-
-$client = new rabbitMQClient("../toLog.ini","testServer");
+require_once('../logger.inc');
 
 $request = array();
 
@@ -14,7 +13,9 @@ class movieAPIFind {
 
 	public static function _movieFind($parameters)
 	{
-		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();			
+
 		$title = $parameters[0];
 		if(count($parameters) > 1)
 		  $year = $parameters[1];
@@ -27,8 +28,12 @@ class movieAPIFind {
 		//echo "year: " . $year . PHP_EOL;
 		//echo "imdbid: " . $imdbid . PHP_EOL;
 
-		$curl = curl_init();
+		$eventMessage = "sending find request for movie with IMDB id: " . $imdbid;
+        	$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
+		$testVar = $logClient->publish($sendLog);
 
+		$curl = curl_init();
+		
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => "https://api.themoviedb.org/3/find/$imdbid?external_source=imdb_id&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
 			CURLOPT_RETURNTRANSFER => true,
@@ -50,11 +55,9 @@ class movieAPIFind {
 			echo "cURL Error #:" . $err; 
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{

@@ -5,6 +5,7 @@ include_once 'class.ConvertForAPI.php';
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
+require_once('../logger.inc');
 
 $client = new rabbitMQClient("../toLog.ini","testServer");
 
@@ -14,6 +15,9 @@ class movieAPIUpcoming {
 
 	public static function _movieUpcoming($pagenum = 1) {
 
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();	
+		
 		$page = "page=$pagenum";
 
 		$curl = curl_init();
@@ -39,11 +43,9 @@ class movieAPIUpcoming {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{

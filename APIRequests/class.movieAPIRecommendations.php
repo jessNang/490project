@@ -5,15 +5,17 @@ include_once 'class.ConvertForAPI.php';
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
 require_once('../../../git/rabbitmqphp_example/rabbitMQLib.inc');
-
-$client = new rabbitMQClient("../toLog.ini","testServer");
+require_once('../logger.inc');
 
 $request = array();
 
 class movieAPIRecommendations {
 
 	public static function _movieRecommend($parameters, $pagenum = 1) {
-	
+		
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();	
+
 		$title = $parameters[0];
 		if(count($parameters) > 1)
 		  $year = $parameters[1];
@@ -24,23 +26,30 @@ class movieAPIRecommendations {
 		$tmdbid = ConvertForAPI::_movieIMDBtoTMDB($imdbid);
 
 		//echo $tmdbid;
-		
+		//$eventMessage = "sending recommendations based on movie with IMDB id: " . $imdbid;
+        	//$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
+		//$testVar = $logClient->publish($sendLog);
+
 		$page = "page=$pagenum";		
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://api.themoviedb.org/3/movie/$tmdbid/recommendations?$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => "",
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 30,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => "GET",
-		  CURLOPT_POSTFIELDS => "{}",
+			CURLOPT_URL => "https://api.themoviedb.org/3/movie/$tmdbid/recommendations?$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
 		));
 
 		$jsonResponse = curl_exec($curl);
 		$err = curl_error($curl);
+
+		//$eventMessage = "recommend results: " . $jsonResponse;
+        	//$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
+		//$testVar = $logClient->publish($sendLog);
 
 		curl_close($curl);
 
@@ -49,11 +58,9 @@ class movieAPIRecommendations {
 			echo "cURL Error #:" . $err;
 			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
 			
-			$request['type'] = "error";
-			$request['data'] = $error;
-
-			$client->send_request($request);
-			return $err;
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
 		}
 		else
 		{
