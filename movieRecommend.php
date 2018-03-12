@@ -36,57 +36,21 @@ if(!isset($_SESSION["sess_user"])){
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-$title=$_REQUEST['category'];
+
+$movie=$_REQUEST['movie'];
+echo "Similar movies to $movie: <br><br>";
 $category = array();
-array_push($category, $title);
+array_push($category, $movie);
 $client = new rabbitMQClient("dmz.ini","testServer");
 
 $request = array();
-$request['type'] = "find";
+$request['type'] = "recommend";
 $request['params'] = $category;
 $request['page'] = "";
 $response = $client->send_request($request);
-$movieTitle;
+
 if($response == true){
-	foreach($movie as $key => $value){
-        	if($key=="poster_path"){
-#               	echo "<table style='width:100%'><td><img src='https://image.tmdb.org/t/p/w342".$value."'></td>"; 
-        		#echo "<img src='https://image.tmdb.org/t/p/w342".$value."'>";     
-	            echo "<img src='https://image.tmdb.org/t/p/w342".$value."' height='150'>";
-			#echo "<br>";
-                }       
-        }
-	foreach($response['data'] as $key => $value){
-                if($key=="title"){
-                        #echo "<td>$value<br><br>";
-			echo "$value<br><br>";
-			$movieTitle=$value;
-                }
-	}
-	foreach($response['data'] as $key => $value){
-		if($key=="release_date"){
-			echo "Release Date: $value<br><br>";
-		}
-	}
-	foreach($response['data'] as $key => $value){
-		if($key=="overview"){
-                        #echo "Overview: $value<br></td></tr></table><br>";
-			echo "Overview: $value<br><br>";
-                }
-	}
-}
-
-
-/*
-$request1 = array();
-$request1['type'] = "recommend";
-$request1['params'] = $category;
-$request1['page'] = "";
-$response1 = $client->send_request($request1);
-
-if($response1 == true){
-	echo "Movie Reccomendations";
-        foreach($response1['data'] as $movie){
+        foreach($response['data'] as $movie){
                 echo "<br>";
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
@@ -106,8 +70,6 @@ if($response1 == true){
                 }
         }
 }
-*/
-echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 
 ?>
 </body>
@@ -132,10 +94,10 @@ if(isset($_SESSION['last_action'])){
         session_destroy();
         header("location:login.php");
     }
-
-}
+ }
 
 //Assign the current timestamp as the user's latest activity
 $_SESSION['last_action'] = time();
 }
 ?>
+
