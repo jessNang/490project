@@ -88,3 +88,15 @@ h1{
         font-size: 32px;
 }
 
+.container a{
+        text-decoration: none;
+        font-size: 14px;
+        color: #fff;
+        font-family: 'Julius';
+	font-weight: bold;
+}
+
+.container a:hover{
+        color: midnightblue;
+}
+

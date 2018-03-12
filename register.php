@@ -40,64 +40,38 @@ function checkPwd(){
                 <input type="text" name="email" id="email" required="required" placeholder="Enter email ID">
                 
                 <input type="submit" name="submit" value="Register">
+		<a href="login.php">Have an account? Login Here</a>
         </form>
 	</div>       
 
 <?php
-include("account.php");
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-require_once('logger.inc');
 
-$con = mysqli_connect($hostname, $username, $password, "users") or die (mysqli_error());
 
 if(isset($_POST["submit"])){
-	$user=mysqli_real_escape_string($con, $_POST['user']);
-	$pass=password_hash((mysqli_real_escape_string($con, $_POST['password'])), PASSWORD_DEFAULT);
-	$email=mysqli_real_escape_string($con, $_POST['email']);
+	$user=$_POST['user'];
+	$pass=$_POST['password'];
+	$email=$_POST['email'];
 	
-	$client = new rabbitMQClient("authentication.ini","testServer");
-        $clientLog= new rabbitMQClient("logging.ini","testServer");
-        $logger = new Logger();
+	$client = new rabbitMQClient("db.ini","testServer");
 	
-	if (isset($argv[1]))
-	{
- 		$msg = $argv[1];
-	}
-	else
-	{
-  		$msg = "test message";
-	}
 	$request = array();
 	$request['type'] = "register";
 	$request['username'] = $user;
 	$request['password'] = $pass;
 	$request['email'] = $email;
 	$response = $client->send_request($request);
-	if($response == true){
-		$query=mysqli_query($con,"SELECT * FROM login where name='".$user."'");
-		$numrows=mysqli_num_rows($query);
-		#if the user isn't in the database add them
-		if($numrows==0){
-			$sql="INSERT INTO login(name, email, passwd) VALUES('$user','$email', '$pass')";
-			$result=mysqli_query($con, $sql);
-			if($result){
-				echo "Account Successfully Created";
-			} else {
-				echo "Failure!";
-			}
-		#else display that the user already exists
-		} else {
-#			echo "That username already exists! please try again with another.";
-			$er="That username already exist! Please try again with another.";
-			$requestLog = $logger->logArray( date('m/d/Y H:i:s a', time()). " ".gethostname(). ": ".PHP_EOL."Error occured in ". __FILE__. " LINE ". __LINE__.PHP_EOL."Error Code: ".$er.PHP_EOL);
 
-                        $responseLog = $client->publish($requestLog);
-			echo "That username already exists! please try again with another.";
-		}
+	if($response['valid'] === true){
+		echo "Account successfully created";
+	}
+	else{
+		echo "That username already exists! Please try again with another!";
 	}
 }
+
 ?>
 </body>
 </html>
