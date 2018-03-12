@@ -12,10 +12,11 @@ $request = array();
 class movieAPIClassics {
 
 	public static function _movieClassics($pagenum = 1) {
-
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();
 
+		//set page field for request
 		$page = "page=$pagenum";
 
 		$curl = curl_init();
@@ -47,13 +48,11 @@ class movieAPIClassics {
 		}
 		else
 		{
-			//echo $jsonResponse;
-
+			//format the string response into an array with readable key-value pairs
 			$parts = explode("}],", $jsonResponse);
 			$parts = explode(":[{", $parts[0]);	
 			$parts = explode("},{", $parts[1]);
-	
-			//print_r($parts);
+
 			for($i = 0; $i < count($parts); $i++)
 			{
 				$parts[$i] = trim($parts[$i], "{}]\\");
@@ -67,7 +66,8 @@ class movieAPIClassics {
 					$arrayResponse[$i][$chunk[0]] = $chunk[1];
 				}
 			}
-			//print_r($arrayResponse);
+
+			//properly format poster and backdrop paths as well as genre ids
 			for($i = 0; $i < count($arrayResponse); $i++)
 			{
 				$arrayResponse[$i]["poster_path"] = trim($arrayResponse[$i]["poster_path"], "\\");

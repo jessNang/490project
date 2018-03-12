@@ -23,7 +23,9 @@ function requestProcessor($request)
 	$response = array();
 	//print_r($request);	
 	var_dump($request);
-	if(!isset($request['type']))
+
+	
+	if(!isset($request['type']))	//check to see that a request type was set
 	{
 		$eventMessage = "API request type not set";
         	$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
@@ -31,68 +33,74 @@ function requestProcessor($request)
 		return "API request type not set";
 	}
 
-	
+	//figure out which type of request was used and get the appropriate data
 	switch($request['type'])
 	{ 
 
-		case "discover":	$discoverParams = $request['params']; //place holder data. get from queue
-					$page = $request['page']; //get from queue
-					$response['type'] = "discover";
-					
-					$response['data'] = movieAPIDiscover::_movieDiscover($discoverParams, $page);
+		case "discover":	$discoverParams = $request['params']; //get params from queue
+					$page = $request['page']; //get page number from queue
+					$response['type'] = "discover";	//set response type
+					$response['data'] = movieAPIDiscover::_movieDiscover($discoverParams, $page);	//send api request and set the response data
 
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "find":		$findParams = $request['params']; //place holder data. get from queue
+		case "find":		$findParams = $request['params']; //get params from queue
 					$response['type'] = "find";
 					$response['data'] = movieAPIFind::_moviefind($findParams);
 
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "recommend":	$recommendParams = $request['params']; //place holder data. get from queue
-					$page = $request['page']; //get from queue
+		case "recommend":	$recommendParams = $request['params']; //get params from queue
+					$page = $request['page']; //get page number from queue
 					$response['type'] = "recommend";
-					$response['data'] = movieAPIRecommendations::_movieRecommend($recommendParams, $page);
+					$response['data'] = movieAPIRecommendations::_movieRecommend($recommendParams);
 					
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "upcoming":	$page = $request['page']; //get from queue
+		case "upcoming":	$page = $request['page']; //get page number from queue
 					$response['type'] = "upcoming";
 					$response['data'] = movieAPIUpcoming::_movieUpcoming($page);
 
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "current":		$page = $request['page']; //get from queue
+		case "current":		$page = $request['page']; //get page number from queue
 					$response['type'] = "current";
 					$response['data'] = movieAPICurrentReleases::_movieCurrent($page);
 
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "classics":	$page = $request['page']; //get from queue
+		case "classics":	$page = $request['page']; //get page number from queue
 					$response['type'] = "classics";
 					$response['data'] = movieAPIClassics::_movieClassics($page);
 
+					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
         				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		default:		$eventMessage = "Invalid api request: " .$request['type'];
+		default:		//log that the request type was invalid
+					$eventMessage = "Invalid api request: " .$request['type'];
         				$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
 				        $testVar = $logClient->publish($sendLog);
 					break;

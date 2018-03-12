@@ -13,24 +13,18 @@ class movieAPIFind {
 
 	public static function _movieFind($parameters)
 	{
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();			
 
+		//set the title and year of movie
 		$title = $parameters[0];
 		if(count($parameters) > 1)
 		  $year = $parameters[1];
 		else
 		 $year = '';
 
-		$imdbid = ConvertForAPI::_movieRedirect($title, $year);
-
-		//echo "title: " . $title . PHP_EOL;
-		//echo "year: " . $year . PHP_EOL;
-		//echo "imdbid: " . $imdbid . PHP_EOL;
-
-		$eventMessage = "sending find request for movie with IMDB id: " . $imdbid;
-        	$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
-		$testVar = $logClient->publish($sendLog);
+		$imdbid = ConvertForAPI::_movieRedirect($title, $year);	//convert title and year into an IMDB id
 
 		$curl = curl_init();
 		
@@ -61,7 +55,7 @@ class movieAPIFind {
 		}
 		else
 		{
-			//echo $jsonResponse;
+			//format the string response into an array with readable key-value pairs
 			$parts = explode("}],", $jsonResponse);
 			$parts = explode(":[{", $parts[0]);
 			$parts = explode(",\"", $parts[1]);	
@@ -77,16 +71,14 @@ class movieAPIFind {
 			$arrayResponse["genre_ids"] = trim($arrayResponse["genre_ids"], "[]");
 			$arrayResponse["genre_ids"] = explode(",", $arrayResponse["genre_ids"]);
 
+			//properly format genre ids
 			for($i = 0; $i < count($arrayResponse["genre_ids"]); $i++)
 			{
 				$arrayResponse["genre_ids"][$i] = ConvertForAPI::_genreConvertToString($arrayResponse["genre_ids"][$i]);
 			}
-
-			//print_r($arrayResponse);
 			return $arrayResponse;
 		}
 	}
 }
-
 
 ?>

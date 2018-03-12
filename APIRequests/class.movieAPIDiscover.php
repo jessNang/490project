@@ -13,11 +13,11 @@ $request = array();
 class movieAPIDiscover {
 
 	public static function _movieDiscover($parameters, $pagenum = 1) {
-
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();	
 
-		//print_r($parameters);
+		//initialize the array used for sorting the parameters
 		$param = array(false,false,false,false,false,false,false,false,false,false);
 		$paramPos = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
 		$paramValue = array(array(),array(),array(),array(),array(),array(),array(),array(),array(),array());
@@ -127,8 +127,9 @@ class movieAPIDiscover {
 			
 		}
 
-		//print( "search parameters: " .$searchParameters. PHP_EOL);
+		//set page field for request
 		$page = "page=$pagenum";
+
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -159,7 +160,7 @@ class movieAPIDiscover {
 		}
 		else
 		{
-			//echo $jsonResponse;
+			//format the string response into an array with readable key-value pairs
 			$parts = explode("lts\":[", $jsonResponse);
 			$parts = explode("},{", $parts[1]);
 	
@@ -177,6 +178,7 @@ class movieAPIDiscover {
 				}
 			}
 	
+			//properly format poster and backdrop paths as well as genre ids
 			for($i = 0; $i < count($arrayResponse); $i++)
 			{
 				$arrayResponse[$i]["poster_path"] = trim($arrayResponse[$i]["poster_path"], "\\");
@@ -190,8 +192,6 @@ class movieAPIDiscover {
 					$arrayResponse[$i]["genre_ids"][$j] = ConvertForAPI::_genreConvertToString($arrayResponse[$i]["genre_ids"][$j]);
 				}
 			}
-	
-			//print_r($arrayResponse);
 			return $arrayResponse;
 		}
 	}

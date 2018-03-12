@@ -15,9 +15,11 @@ class movieAPIUpcoming {
 
 	public static function _movieUpcoming($pagenum = 1) {
 
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();	
 		
+		//set page field for request
 		$page = "page=$pagenum";
 
 		$curl = curl_init();
@@ -49,13 +51,11 @@ class movieAPIUpcoming {
 		}
 		else
 		{
-			//echo $jsonResponse;
-
+			//format the string response into an array with readable key-value pairs
 			$parts = explode("}],", $jsonResponse);
 			$parts = explode(":[{", $parts[0]);	
 			$parts = explode("},{", $parts[1]);
 	
-			//print_r($parts);
 			for($i = 0; $i < count($parts); $i++)
 			{
 				$parts[$i] = trim($parts[$i], "{}]\\");
@@ -69,7 +69,8 @@ class movieAPIUpcoming {
 					$arrayResponse[$i][$chunk[0]] = $chunk[1];
 				}
 			}
-			//print_r($arrayResponse);
+			
+			//properly format poster and backdrop paths as well as genre ids
 			for($i = 0; $i < count($arrayResponse); $i++)
 			{
 				$arrayResponse[$i]["poster_path"] = trim($arrayResponse[$i]["poster_path"], "\\");
@@ -83,7 +84,6 @@ class movieAPIUpcoming {
 					$arrayResponse[$i]["genre_ids"][$j] = ConvertForApi::_genreConvertToString($arrayResponse[$i]["genre_ids"][$j]);
 				}
 			}
-			//print_r($arrayResponse);
 			return $arrayResponse;
 		}
 	}

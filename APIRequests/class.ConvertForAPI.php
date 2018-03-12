@@ -32,7 +32,7 @@ class ConvertForAPI {
 
 	//converts a movie IMDB id into a TMDB id
 	public static function _movieIMDBtoTMDB($imdbid) {
-		
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();
 
@@ -65,7 +65,7 @@ class ConvertForAPI {
 		}
 		else
 		{
-			//echo $jsonResponse;
+			//format the response to only get the TMDB id
 			$parts = explode("\"id\":", $jsonResponse);
 			$parts = explode(",", $parts[1]);
 			$tmdbid = $parts[0];
@@ -76,7 +76,7 @@ class ConvertForAPI {
 
 	//converts an actors name into an IMDB id then a TMDB id
 	public static function _actorRedirect($actor) {
-		
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();
 
@@ -92,6 +92,7 @@ class ConvertForAPI {
 		else {
 			$rawData = @file_get_contents( 'http://www.imdb.com/find?s=all&q='. $actorName);
 		}
+		//trim the result to only get the IMDB id
 		$parts = explode("name/",$rawData);
 		$parts = explode("?",$parts[1]);
 		$imdbid = $parts[0];
@@ -125,7 +126,7 @@ class ConvertForAPI {
 		}
 		else
 		{
-			//echo $jsonResponse;
+			//trim the result to only get a TMDB id
 			$parts = explode("\"id\":", $jsonResponse);
 			$parts = explode(",", $parts[1]);
 			$tmdbid = $parts[0];
@@ -136,7 +137,7 @@ class ConvertForAPI {
 	
 	//converts a company's name into a TMDB id
 	public static function _companyRedirect($company) {
-		
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();
 
@@ -169,8 +170,7 @@ class ConvertForAPI {
 		}
 		else
 		{
-			//echo $response;
-			//cut out the fluff and get the first id returned
+			//trim the results so only the company TMDB id is returned
 			$parts = explode("\"id\":", $response);
 			$parts = explode(",", $parts[1]);
 			$companyid = $parts[0];
@@ -237,7 +237,7 @@ class ConvertForAPI {
 	//convert a search word into a TMDB keyword id
 	public static function _getKeywordId($keyword)
 	{
-		
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();
 
@@ -270,8 +270,7 @@ class ConvertForAPI {
 		}
 		else
 		{
-			//echo $response;
-			//cut out the fluff and get the first id returned
+			//trim the response so only the TMDB id of the keyword is returned
 			$parts = explode("\"id\":", $response);
 			print_r($parts);
 			$parts = explode(",", $parts[1]);

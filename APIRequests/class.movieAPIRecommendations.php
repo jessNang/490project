@@ -12,28 +12,22 @@ $request = array();
 class movieAPIRecommendations {
 
 	public static function _movieRecommend($parameters, $pagenum = 1) {
-		
+		//initialize the logger
 		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
         	$logger = new Logger();	
 
+		//set the title and year of the movie
 		$title = $parameters[0];
 		if(count($parameters) > 1)
 			$year = $parameters[1];
 		else
 			$year = '';		
-		
-		if(!isset($pagenum))
-			$pagenum = 1;
 
-		$imdbid = ConvertForAPI::_movieRedirect($title, $year);
-		$tmdbid = ConvertForAPI::_movieIMDBtoTMDB($imdbid);
+		$imdbid = ConvertForAPI::_movieRedirect($title, $year); //convert title and year into IMDB id
+		$tmdbid = ConvertForAPI::_movieIMDBtoTMDB($imdbid);	//convert IMDB id into TMDB id for request
 
-		//echo $tmdbid;
-		//$eventMessage = "sending recommendations based on movie with IMDB id: " . $imdbid;
-        	//$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
-		//$testVar = $logClient->publish($sendLog);
-
-		$page = "page=1"; //$pagenum
+		//sets page part of request
+		$page = "page=$pagenum";
 				
 		$curl = curl_init();
 
@@ -51,10 +45,6 @@ class movieAPIRecommendations {
 		$jsonResponse = curl_exec($curl);
 		$err = curl_error($curl);
 
-		//$eventMessage = "recommend results: " . $jsonResponse;
-        	//$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
-		//$testVar = $logClient->publish($sendLog);
-
 		curl_close($curl);
 
 		if ($err)
@@ -68,12 +58,11 @@ class movieAPIRecommendations {
 		}
 		else
 		{
-			//echo $jsonResponse;
+			//format the string response into an array with readable key-value pairs
 			$parts = explode("}],", $jsonResponse);
 			$parts = explode(":[{", $parts[0]);
 			$parts = explode("},{", $parts[1]);
 	
-			//print_r($parts);
 			for($i = 0; $i < count($parts); $i++)
 			{
 				$parts[$i] = trim($parts[$i], "{}]\\");
@@ -87,7 +76,8 @@ class movieAPIRecommendations {
 					$arrayResponse[$i][$chunk[0]] = $chunk[1];
 				}
 			}
-			//print_r($arrayResponse);
+			
+			//properly format poster and backdrop paths as well as genre ids
 			for($i = 0; $i < count($arrayResponse); $i++)
 			{
 				$arrayResponse[$i]["poster_path"] = trim($arrayResponse[$i]["poster_path"], "\\");
@@ -101,7 +91,6 @@ class movieAPIRecommendations {
 					$arrayResponse[$i]["genre_ids"][$j] = ConvertForAPI::_genreConvertToString($arrayResponse[$i]["genre_ids"][$j]);
 				}
 			}
-			//print_r($arrayResponse);
 			return $arrayResponse;
 		}
 	}
