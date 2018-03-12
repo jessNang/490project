@@ -69,6 +69,7 @@ class ConvertForAPI {
 			$parts = explode("\"id\":", $jsonResponse);
 			$parts = explode(",", $parts[1]);
 			$tmdbid = $parts[0];
+
 			return $tmdbid;
 		}
 	}

@@ -18,9 +18,12 @@ class movieAPIRecommendations {
 
 		$title = $parameters[0];
 		if(count($parameters) > 1)
-		  $year = $parameters[1];
+			$year = $parameters[1];
 		else
-		 $year = '';		
+			$year = '';		
+		
+		if(!isset($pagenum))
+			$pagenum = 1;
 
 		$imdbid = ConvertForAPI::_movieRedirect($title, $year);
 		$tmdbid = ConvertForAPI::_movieIMDBtoTMDB($imdbid);
@@ -30,7 +33,8 @@ class movieAPIRecommendations {
         	//$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
 		//$testVar = $logClient->publish($sendLog);
 
-		$page = "page=$pagenum";		
+		$page = "page=1"; //$pagenum
+				
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
@@ -65,9 +69,8 @@ class movieAPIRecommendations {
 		else
 		{
 			//echo $jsonResponse;
-
 			$parts = explode("}],", $jsonResponse);
-			$parts = explode(":[{", $parts[0]);	
+			$parts = explode(":[{", $parts[0]);
 			$parts = explode("},{", $parts[1]);
 	
 			//print_r($parts);
