@@ -10,7 +10,8 @@ if(!isset($_SESSION["sess_user"])){
 <head>
         <meta charset="utf-8">
         <title>Movie</title>
-        <link rel="stylesheet" href="welcome.css">
+        <link rel="stylesheet" href="rate.css">
+	<link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 </head>
@@ -23,7 +24,7 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="classics.php">Classics</a></li>
                         <li><a href="discover.php">Discover</a></li>
                         <li><form>
-                                <input type="search" placeholder"search...">
+                                <input type="search" placeholder="Search movies...">
                                 <a href="find.php" class="fa fa-search"></a>
                         </form></li>
                         <li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
@@ -63,6 +64,28 @@ if($response == true){
 			$movieTitle=$value;
                 }
 	}
+	echo "Rating: ";
+	?>
+	<form>
+	<fieldset class="starability-growRotate"> 
+  
+	<input type="radio" id="rate5" name="rating" value="5" />
+    <label for="rate5" title="Amazing">5 stars</label>
+
+    <input type="radio" id="rate4" name="rating" value="4" />
+    <label for="rate4" title="Very good">4 stars</label>
+
+    <input type="radio" id="rate3" name="rating" value="3" />
+    <label for="rate3" title="Average">3 stars</label>
+
+    <input type="radio" id="rate2" name="rating" value="2" />
+    <label for="rate2" title="Not good">2 stars</label>
+
+    <input type="radio" id="rate1" name="rating" value="1" />
+    <label for="rate1" title="Terrible">1 star</label>
+	</fieldset>
+	</form>
+	<?php
 	foreach($response['data'] as $key => $value){
 		if($key=="release_date"){
 			echo "Release Date: $value<br><br>";

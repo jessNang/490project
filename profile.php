@@ -19,14 +19,13 @@ if(!isset($_SESSION["sess_user"])){
 	<nav>
                 <ul class="main_menu">
                         <li><a href="welcome.php">Home</a></li>
-                        <li><a href="#">Upcoming</a></li>
-                        <li><a href="#">Classics</a></li>
-                        <li><a href="#">Comedy</a></li>
-                        <li><a href="#">Family</a></li>
-                        <li><a href="#">Horror</a></li>
+                        <li><a href="nowplaying.php">Now Playing</a></li>
+                        <li><a href="upcoming.php">Upcoming</a></li>
+                        <li><a href="classics.php">Classics</a></li>
+                        <li><a href="discover.php">Discover</a></li>
                         <li><form>
-                                <input type="search" placeholder"search...">
-                                <a href="#" class="fa fa-search"></a>
+                                <input type="search" placeholder="Search movies...">
+                                <a href="find.php" class="fa fa-search"></a>
                         </form></li>
                         <li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
                         <li><a href="logout.php">Logout</a></li>
@@ -34,7 +33,7 @@ if(!isset($_SESSION["sess_user"])){
         </nav>
 
 	<div class="card">
-		<div class="imgBox"><img src="image2.jpg" height="400px" width="300px"></div>
+		<div class="imgBox"><img src="images6.png" height="400px" width="300px"></div>
 		<div class="details">
 			<div class="content">
 				<h3><?=$_SESSION['sess_user'];?><br><span><?=$_SESSION['sess_email'];?></span></h3>

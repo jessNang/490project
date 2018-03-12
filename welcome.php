@@ -23,7 +23,7 @@ if(!isset($_SESSION["sess_user"])){
 			<li><a href="classics.php">Classics</a></li>
 			<li><a href="discover.php">Discover</a></li>
 			<li><form>
-				<input type="search" placeholder"search...">
+				<input type="search" placeholder="Search movie...">
 				<a href="find.php" class="fa fa-search"></a>
 			</form></li>
 			<li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
