@@ -104,8 +104,10 @@ if(isset($_POST["submit"])){
 
                         foreach($movie as $key => $value){
                                 if($key=="title"){
-                                        echo "<a href='moviefind.php?category=".$value."'>$value</a><br>";
+                                        echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
                                 }
+			}
+			foreach($movie as $key => $value){
 
                                 if($key=="release_date"){
                                         echo "Release Date: $value<br>";
