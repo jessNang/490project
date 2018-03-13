@@ -7,8 +7,6 @@ require_once('logger.inc');
 
 echo "Logger ready, awaiting messages ...".PHP_EOL;
 
-$storeArray = array(); //if needed
-
 function doLogin($arr)
 {
 	// receieve request
@@ -28,24 +26,18 @@ function doLogin($arr)
 	echo "sent array to toDB".PHP_EOL;
 	
 	echo "response is: ";
+	
 	print_r($response);
 
-	//send back to jessy (does return already do this?)
-//	$toJessy = new rabbitMQClient("authentication-out.ini", "testServer");
-//	$toJessy->publish($response);
-	
-
-//	echo 'response equals: ';
-//	print_r($response);
 	echo "sent login".PHP_EOL;
 
 	// change type so it doesn't loopback
-	$response = array("type" => "processedLogin");
+	$response["type"] = "processedLogin";
+	
 	echo "new response";
 	print_r($response);
 	
 	return $response;
-
 }
 
 function doRegister($uname, $pass, $em)
