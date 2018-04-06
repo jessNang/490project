@@ -168,9 +168,9 @@ else{
 ?>
 	<footer>
 		<p>
-		<a href="upcoming.php">1 &nbsp;</a><br>";
-		<a href="upcoming2.php">2 &nbsp;</a><br>";
-		<a href="upcoming3.php">3 &nbsp;</a><br>";
+		<a href="upcoming.php">Page 1&nbsp;</a>
+		<a href="upcoming2.php">Page 2&nbsp;</a>
+		<a href="upcoming3.php">Page 3&nbsp;</a>
 		</p>
 	</footer>
 
