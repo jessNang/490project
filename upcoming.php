@@ -10,15 +10,25 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
         <meta charset="utf-8">
-        <title>Upcoming Page 1</title>
-		<link rel="stylesheet" href="rate.css">
+	<meta name="viewport" content="width=device-width, initial-scale=">
+        <title>Upcoming</title>
+	<link rel="stylesheet" href="rate.css">
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="slicknav.css">
+    	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    	<script src="jquery.slicknav.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#nav_menu').slicknav({prependTo:"#mobile_menu"});
+	    	});
+    	</script>
 
 </head>
 <body>
-		<!-- Navigation bar -->
-        <nav>
+	<!-- Navigation bar -->
+        <nav id="mobile_menu">
+	<nav id="nav_menu">
                 <ul class="main_menu">
                         <li><a href="welcome.php">Home</a></li>
                         <li><a href="nowplaying.php">Now Playing</a><li>
@@ -33,6 +43,7 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="logout.php">Logout</a></li>
                 </ul>
         </nav>
+	</nav>
         </div>
 
 <?php
@@ -133,11 +144,17 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 
 else{
 	$client = new rabbitMQClient("dmz.ini","testServer");
-
-	//upcoming movies page 1 api request
+	$pageNumber=$_REQUEST['page'];
+	if(($pageNumber != "") && ($pageNumber != "1")){
+		$currentPage = intval($pageNumber);
+	}
+	else{
+		$currentPage = 1;
+	}
+	//upcoming movies api request
 	$request = array();
 	$request['type'] = "upcoming";
-	$request['page'] = "";
+	$request['page'] = "$currentPage";
 	$response = $client->send_request($request);
 
 	//printing out the api results
@@ -169,11 +186,20 @@ else{
 }
 ?>
 	<footer>
-		<p>
-		<a href="upcoming.php">Page 1&nbsp;</a>
-		<a href="upcoming2.php">Page 2&nbsp;</a>
-		<a href="upcoming3.php">Page 3&nbsp;</a>
-		</p>
+		<?php echo"<p>";
+		if($currentPage != 1){
+			$previous = $currentPage - 1;
+			echo "<a href='upcoming.php?page=".$previous."'>Previous Page</a>";
+			echo "&nbsp;&nbsp;&nbsp;";
+			$next = $currentPage + 1;
+			echo "<a href='upcoming.php?page=".$next."'>Next Page</a><br>";
+		}
+		if($currentPage == 1){
+			$next = $currentPage + 1;
+			echo "<a href='upcoming.php?page=".$next."'>Next Page</a><br>";
+		}
+		echo"</p>";
+		?>
 	</footer>
 </body>
 </html>

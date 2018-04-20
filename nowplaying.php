@@ -38,6 +38,7 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+//movie search
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
@@ -50,6 +51,8 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $request['page'] = "";
         $response = $client->send_request($request);
         $movieTitle;
+
+	//getting movie information
         if($response == true){
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
@@ -66,6 +69,8 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                                 $movieTitle=$value;
                         }
                 }
+
+		//movie Rating
                 echo "Rating: ";
         ?>
         <form>
@@ -108,17 +113,27 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                         }
                 }
         }
+	//link for similar movies
         echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
 
+//nowplaying movies
 else{
 	$client = new rabbitMQClient("dmz.ini","testServer");
-
+	//setting the current page number
+	$pageNumber=$_REQUEST['page'];
+	if(($pageNumber != "") && ($pageNumber != "1")){
+		$currentPage = intval($pageNumber);
+	}
+	else{
+		$currentPage = 1;
+	}
 	$request = array();
 	$request['type'] = "current";
-	$request['page']="";
+	$request['page']="$currentPage";
 	$response = $client->send_request($request);
 
+	//getting movie information
 	if($response == true){
         	foreach($response['data'] as $movie){
                 	echo "<br>";
@@ -142,6 +157,24 @@ else{
 	}
 }
 ?>
+	<footer>
+		<?php
+		//next and previous page links
+		echo"<p>";
+		if($currentPage != 1){
+			$previous = $currentPage - 1;
+			echo "<a href='nowplaying.php?page=".$previous."'>Previous Page</a>";
+			echo "&nbsp;&nbsp;&nbsp;";
+			$next = $currentPage + 1;
+			echo "<a href='nowplaying.php?page=".$next."'>Next Page</a><br>";
+		}
+		if($currentPage == 1){
+			$next = $currentPage + 1;
+			echo "<a href='nowplaying.php?page=".$next."'>Next Page</a><br>";
+		}
+		echo"</p>";
+		?>
+	</footer>
 </body>
 </html>
 <?php
