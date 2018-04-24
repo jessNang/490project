@@ -1,3 +1,9 @@
+@font-face{
+        font-family:'Julius';
+        src:url('fonts/Julius.ttf');
+        format('truetype');
+}
+
 body{
 	font-family: 'Arial', sans-serif;
 	background-color: #f0f5f5;
@@ -45,3 +51,58 @@ input[type="search"]{
 	font-weight: 300;
 }
 
+h2{
+	padding-top: 20%;
+	margin-left: 35%;        
+	font-size: 200%;
+        font-family: 'Julius';
+}
+
+.columns{
+	 -moz-column-count: 5;
+	 -webkit-column-count: 5;
+	 column-count: 5;
+}
+
+.slicknav_menu {
+	display: none;
+}
+
+/*phone portrait*/
+@media only screen and (max-width: 479px) {
+	#nav_menu {
+		display: none;
+	}
+	.slicknav_menu {
+		display: block;
+	}
+	.columns{
+		 -moz-column-count: 1;
+		 -webkit-column-count: 1;
+		 column-count: 1;
+	}
+	h2{
+		padding-top:35%;		
+		margin-left: 15%;
+	}
+}
+
+/*phone in landscape*/
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	#nav_menu {
+		display: none;
+	}
+	.slicknav_menu {
+		display: block;
+	}
+	.columns{
+		 -moz-column-count: 2;
+		 -webkit-column-count: 2;
+		 column-count: 2;
+	}
+	h2{
+		padding-top:15%;		
+		margin-left: 10%;
+	}
+
+}

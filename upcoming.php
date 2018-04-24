@@ -68,7 +68,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 	
 	//Printing api results
 	if($response == true){
-			//Movie poster
+		//Movie poster
         	foreach($movie as $key => $value){
                 	if($key=="poster_path"){
 #                       	echo "<table style='width:100%'><td><img src='https://image.tmdb.org/t/p/w342".$value."'></td>"; 
@@ -159,6 +159,7 @@ else{
 
 	//printing out the api results
 	if($response == true){
+		echo "<div class='columns'>";
 		foreach($response['data'] as $movie){
 			echo "<br>";
 			
@@ -182,6 +183,7 @@ else{
 				}
 			}
 		}
+		echo "</div>";
 	}
 }
 ?>

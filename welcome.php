@@ -9,14 +9,23 @@ if(!isset($_SESSION["sess_user"])){
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=">
 	<title>Welcome</title>
 	<link rel="stylesheet" href="rate.css">
 	<link rel="stylesheet" href="welcome.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+	<link rel="stylesheet" href="slicknav.css">
+    	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    	<script src="jquery.slicknav.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#nav_menu').slicknav({prependTo:"#mobile_menu"});
+	    	});
+    	</script>
 </head>
 <body>
-	<nav>
+	<nav id="mobile_menu">
+	<nav id="nav_menu">
 		<ul class="main_menu">
 			<li><a href="welcome.php">Home</a></li>
 			<li><a href="nowplaying.php">Now Playing</a><li>
@@ -31,6 +40,7 @@ if(!isset($_SESSION["sess_user"])){
 			<li><a href="profile.php"><?=$_SESSION['sess_user'];?></a></li>
 			<li><a href="logout.php">Logout</a></li>
 		</ul>
+        </nav>
 	</nav>
 	</div>
 	<h2>Welcome to JLEOMD, <?=$_SESSION['sess_user'];?>!</h2>
