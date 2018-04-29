@@ -39,7 +39,7 @@ while(true)
 	{
 		// get input for what file to put into the package
 		$file = readline("Enter a file name: ");
-		print (PHP_EOL);
+		//print (PHP_EOL);
 		switch($file)
 		{
 			case "PUSH":	$continue = false;break;
@@ -50,7 +50,7 @@ while(true)
 	//print_r($fileNames);
 
 	//finds original file locations
-	$fileDirectory = file_get_contents("/home/rocco/updates/directory.conf");
+	$fileDirectory = file_get_contents("/home/rocco/Desktop/490project/directory.conf");
 
 	//print($fileDirectory . PHP_EOL);
 
@@ -64,29 +64,31 @@ while(true)
 	//print_r($filePaths);
 
 	//creates the directory for the new update
-	$updateNumber = file_get_contents("/home/rocco/updates/updateNum.txt");
+	$updateNumber = file_get_contents("/home/rocco/Desktop/490project/updateNum.txt");
 	$updateNum = (int)$updateNumber;
 	$updateNum++;
 
 	//print($updateNum . PHP_EOL);
 
-	file_put_contents("/home/rocco/updates/updateNum.txt", $updateNum);
+	file_put_contents("/home/rocco/Desktop/490project/updateNum.txt", $updateNum);
 	
 	$updateName = "dmz_$updateNum";
 	$updateFolder = "/home/rocco/updates/$updateName";
 	mkdir($updateFolder);
 	
 	//copies files to be packaged
-	copy("/home/rocco/updates/updateNum.txt", $updateFolder . "/updateNum.txt");
-	copy("/home/rocco/updates/directory.conf", $updateFolder . "/directory.conf");
-	chdir("/home");
+	copy("/home/rocco/Desktop/490project/updateNum.txt", $updateFolder . "/updateNum.txt");
+	copy("/home/rocco/Desktop/490project/directory.conf", $updateFolder . "/directory.conf");
+
 	for($i = 0; $i < count($fileNames); $i++)
 	{
-		$fileSource = $filePaths[$fileNames[$i]] . "/" . $fileNames[$i];
+		$fileSource = "." . $filePaths[$fileNames[$i]] . "/" . $fileNames[$i];
 		print($fileSource . PHP_EOL);
 		$fileDestination = $updateFolder . "/" . $fileNames[$i];
 		print($fileDestination . PHP_EOL);
-		$output = shell_exec("cp '$fileSource' '$fileDestination'");
+		chdir("/home");
+		copy($fileSource, $fileDestination);
+		//$output = shell_exec("cp '$fileSource' '$fileDestination'");
 	}
 	
 	//creates the update package
