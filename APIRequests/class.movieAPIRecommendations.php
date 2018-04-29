@@ -27,12 +27,12 @@ class movieAPIRecommendations {
 		$tmdbid = ConvertForAPI::_movieIMDBtoTMDB($imdbid);	//convert IMDB id into TMDB id for request
 
 		//sets page part of request
-		$page = "page=$pagenum";
+		$page = "$pagenum";
 				
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.themoviedb.org/3/movie/$tmdbid/recommendations?$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
+			CURLOPT_URL => "https://api.themoviedb.org/3/movie/$tmdbid/recommendations?page=$page&language=en-US&api_key=78d3b2e412d269add2b072f074d49fa3",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,

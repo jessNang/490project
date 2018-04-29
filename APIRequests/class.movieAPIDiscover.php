@@ -128,12 +128,12 @@ class movieAPIDiscover {
 		}
 
 		//set page field for request
-		$page = "page=$pagenum";
+		$page = "$pagenum";
 
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&$page&include_video=false",
+			CURLOPT_URL => "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc$searchParameters&api_key=78d3b2e412d269add2b072f074d49fa3&language=en-US&page=$page&include_video=false",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
