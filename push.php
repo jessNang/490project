@@ -100,11 +100,12 @@ while(true)
 	chdir("/home/rocco/updates");
 	$output = shell_exec("tar -zcvf $updateName.tar.gz $updateFolder");
 
-	/*
+	
 	//sends the new package
-	$output = shell_exec("scp $updateName.tar.gz myles@pkgmanager:/home/myles/System Archive/active");
+	$output = shell_exec("scp $updateName.tar.gz rocco@frontend:/home/rocco/test");
+	//$output = shell_exec("scp $updateName.tar.gz myles@pkgmanager:/home/myles/System Archive/active");
 	// send rabbit message to pkgmanager saying that a new package is available for QA
-	*/
+	
 	
 	sleep(5);
 	print(PHP_EOL . PHP_EOL);
