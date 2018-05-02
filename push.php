@@ -32,6 +32,8 @@ exit();
 
 while(true)
 {
+	$updateFile = "/home/rocco/Desktop/490project/updateNum.txt";	
+	$directoryFile = "/home/rocco/Desktop/490project/directory.conf";
 	$fileNames = array();
 	$continue = true;
 	//gets files to put in new update
@@ -50,7 +52,7 @@ while(true)
 	//print_r($fileNames);
 
 	//finds original file locations
-	$fileDirectory = file_get_contents("/home/rocco/Desktop/490project/directory.conf");
+	$fileDirectory = file_get_contents($directoryFile);
 
 	//print($fileDirectory . PHP_EOL);
 
@@ -58,38 +60,40 @@ while(true)
 	for($i = 0; $i < count($parts); $i++)
 	{
 		$chunk = explode(" ", $parts[$i]);
-		$filePaths[$chunk[1]] = $chunk[0];
+		$chunk1 = trim($chunk[1], "\t\n\r\0\x0B");
+		$chunk0 = trim($chunk[0], "\t\n\r\0\x0B");
+		$filePaths[$chunk1] = $chunk0;
 	}
 
 	//print_r($filePaths);
 
 	//creates the directory for the new update
-	$updateNumber = file_get_contents("/home/rocco/Desktop/490project/updateNum.txt");
+	$updateNumber = file_get_contents("$updateFile");
 	$updateNum = (int)$updateNumber;
 	$updateNum++;
 
 	//print($updateNum . PHP_EOL);
 
-	file_put_contents("/home/rocco/Desktop/490project/updateNum.txt", $updateNum);
+	file_put_contents("$updateFile", $updateNum);
 	
 	$updateName = "dmz_$updateNum";
 	$updateFolder = "/home/rocco/updates/$updateName";
 	mkdir($updateFolder);
 	
 	//copies files to be packaged
-	copy("/home/rocco/Desktop/490project/updateNum.txt", $updateFolder . "/updateNum.txt");	//these work
-	copy("/home/rocco/Desktop/490project/directory.conf", $updateFolder . "/directory.conf");
+	copy($updateFile, $updateFolder . "/updateNum.txt");
+	copy($directoryFile, $updateFolder . "/directory.conf");
 	
 	for($i = 0; $i < count($fileNames); $i++)
 	{
 		$fileSource = $filePaths[$fileNames[$i]] . "/" . $fileNames[$i];
-		print($fileSource . PHP_EOL);
+		//print($fileSource . PHP_EOL);
 		$fileDestination = $updateFolder . "/" . $fileNames[$i];
-		print($fileDestination . PHP_EOL);
+		//print($fileDestination . PHP_EOL);
 
-		copy($fileSource, $fileDestination);	//still doesnt work
-		//copy($filePaths[$fileNames[$i]] . "/" . $fileNames[$i], $updateFolder . "/" . $fileNames[$i]);	//tried making the paths in the command but it still doesnt work
-		//$output = shell_exec("cp -p $fileSource $fileDestination");	//this says i dont have permissions
+		$command = "cp $fileSource $fileDestination";
+		//echo "shell command:\n$command\n";
+		$output = shell_exec($command);
 	}
 	
 	//creates the update package
@@ -102,8 +106,8 @@ while(true)
 	// send rabbit message to pkgmanager saying that a new package is available for QA
 	*/
 	
-	//sleep(15);
-	//$output = shell_exec("clear");
+	sleep(5);
+	print(PHP_EOL . PHP_EOL);
 }
 
 
