@@ -1,4 +1,5 @@
 <?php
+#welcome/landing page
 #starts session and connects to the user
 session_start();
 if(!isset($_SESSION["sess_user"])){
@@ -24,6 +25,7 @@ if(!isset($_SESSION["sess_user"])){
     	</script>
 </head>
 <body>
+	<!-- Navigation bar -->
 	<nav id="mobile_menu">
 	<nav id="nav_menu">
 		<ul class="main_menu">
@@ -32,6 +34,8 @@ if(!isset($_SESSION["sess_user"])){
 			<li><a href="upcoming.php">Upcoming</a></li>
 			<li><a href="classics.php">Classics</a></li>
 			<li><a href="discover.php">Discover</a></li>
+			<li><a href="showtimes.php">Showtimes</a></li>
+			<li><a href="forum.php">Forums</a></li>
 			<li><form>
 				<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
@@ -42,7 +46,7 @@ if(!isset($_SESSION["sess_user"])){
 		</ul>
         </nav>
 	</nav>
-	</div>
+	
 	<h2>Welcome to JLEOMD, <?=$_SESSION['sess_user'];?>!</h2>
 </body>
 </html>
@@ -51,18 +55,22 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+//movie search -> if user typed movie title into search bar
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
         array_push($category, $title);
         $client = new rabbitMQClient("dmz.ini","testServer");
-
+	
+	//api request array for movie user searched
         $request = array();
         $request['type'] = "find";
         $request['params'] = $category;
         $request['page'] = "";
         $response = $client->send_request($request);
         $movieTitle;
+
+	//printing api results
         if($response == true){
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
@@ -79,6 +87,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                                 $movieTitle=$value;
                         }
                 }
+
                 echo "Rating: ";
         ?>
         <form>
@@ -121,6 +130,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                         }
                 }
         }
+	//link to find similar movies to the current one
         echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
 
