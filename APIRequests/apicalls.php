@@ -99,6 +99,16 @@ function requestProcessor($request)
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
+		case "showtimes":	$showtimeParams = $request['params']; //get params from queue
+					$response['type'] = "showtimes";
+					$response['data'] = showtimes::_showtimes($showtimeParams);
+
+					//log that the event was processed
+					$eventMessage = "Processing api request: " .$request['type'];
+        				$sendLog = $logger->logArray('event',$eventMessage,__FILE__);
+				        $testVar = $logClient->publish($sendLog);
+					break;
+
 		default:		//log that the request type was invalid
 					$eventMessage = "Invalid api request: " .$request['type'];
         				$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
