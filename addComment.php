@@ -22,17 +22,22 @@ if(empty($_POST["comment_content"])){
 }
 
 $comment_id = $_POST["comment_id"];
-	
-$client = new rabbitMQClient("db.ini","testServer");
-	
-//passing comment info array to be inserted into database
-$request = array();
-$request['type'] = "forum";
-$request['error'] = $error;
-$request['commentName'] = $comment_name;
-$request['commentContent'] = $comment_content;
-$request['parentCommentId'] = $comment_id;
 
-$response = $client->send_request($request);
+if($error == ''){
+	$client = new rabbitMQClient("db.ini","testServer");
+		
+	//passing comment info array to be inserted into database
+	$request = array();
+	$request['type'] = "addComment";
+	$request['error'] = $error;
+	$request['commentName'] = $comment_name;
+	$request['commentContent'] = $comment_content;
+	$request['parentCommentId'] = $comment_id;
 
+	$response = $client->send_request($request);
+
+	if($response['valid'] === true){
+		echo $response['output'];
+	}
+}
 ?>
