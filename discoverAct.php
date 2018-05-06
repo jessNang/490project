@@ -1,5 +1,5 @@
 <?php
-#discover(advanced search) page
+#discover form action page
 #starts session and connects to the user
 session_start();
 if(!isset($_SESSION["sess_user"])){
@@ -13,7 +13,7 @@ if(!isset($_SESSION["sess_user"])){
 	<meta name="viewport" content="width=device-width, initial-scale=">
         <title>Discover</title>
 	<link rel="stylesheet" href="rate.css">
-        <link rel="stylesheet" href="discover.css">
+        <link rel="stylesheet" href="welcome.css">
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="slicknav.css">
     	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
@@ -46,31 +46,13 @@ if(!isset($_SESSION["sess_user"])){
                 </ul>
         </nav>
 	</nav>
-	
-	<!--advanced search -->
-	<div class="container">
-        <form action="discoverAct.php" method="POST">
-                <p>Cast</p>
-                <input type="text" name="cast" id="cast" placeholder="cast seperated by commas">
 
-                <p>Keyword</p>
-                <input type="text" name="keyword" id="keyword" placeholder="Enter keywords seperated with space">
-
-                <p>Year</p>
-                <input type="text"  name="year" id="year" placeholder="Enter year">
-
-                <p>Genre</p>
-                <input type="text" name="genre" id="genre" placeholder="Enter genres seperated by commas">
-
- 		<input type="submit" name="submit" value="Discover">
-        </form>
-        </div>
 <?php
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-//movie search request
+//movie search
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
@@ -85,19 +67,16 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $response = $client->send_request($request);
         $movieTitle;
 
-	//printing api results
+	//printing api request
         if($response == true){
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
-#                               echo "<table style='width:100%'><td><img src='https://image.tmdb.org/t/p/w342".$value."'></td>"; 
                                  #echo "<img src='https://image.tmdb.org/t/p/w342".$value."'>";     
                                 echo "<img src='https://image.tmdb.org/t/p/w342".$value."' height='150'>";
-                                #echo "<br>";
                         }
                 }
                 foreach($response['data'] as $key => $value){
                         if($key=="title"){
-                                #echo "<td>$value<br><br>";
                                 echo "$value<br><br>";
                                 $movieTitle=$value;
                         }
@@ -138,15 +117,160 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                 }
                 foreach($response['data'] as $key => $value){
                         if($key=="overview"){
-                                #echo "Overview: $value<br></td></tr></table><br>";
                                  echo "Overview: $value<br><br>";
                         }
                 }
         }
-	//link for similar movies
         echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
+
+//movie discover
+if(isset($_POST["submit"])){
+        $mergedArray = array();
+
+	//getting variables from form
+	$castVar=$_POST['cast'];
+	$keywordVar=$_POST['keyword'];
+	$yearVar=$_POST['year'];
+	$genreVar=$_POST['genre'];
+
+	//getting variables from url
+	$castUrlVar=$_REQUEST['castVar'];
+	$keywordUrlVar=$_REQUEST['keywordVar'];
+	$yearUrlVar=$_REQUEST['yearVar'];
+	$genreUrlVar=$_REQUEST['genreVar'];
+
+	$pageNumber=$_REQUEST['page'];
+
+	//spliting array for when page number isn't 1 -> using url
+	if(($pageNumber != "") && ($pageNumber != "1")){
+		$currentPage = intval($pageNumber);
+				
+		if($castUrlVar!=""){
+		        $cast = explode(",",$castUrlVar);
+		        $baseCast = "-cast";
+		        array_push($mergedArray,$baseCast);
+			for($i=0;$i<count($cast);$i++){
+				array_push($mergedArray,$cast[$i]);
+			}
+		}
+	
+		if($keywordUrlVar!=""){
+		        $keyword = explode(" ", $keywordUrlVar);
+		        $baseKeyword = "-keyword";
+		        array_push($mergedArray,$baseKeyword);
+			for($i=0;$i<count($keyword);$i++){
+		                array_push($mergedArray,$keyword[$i]);
+		        }
+		}
+		if($yearUrlVar!=""){
+		        $year = $yearUrlVar;
+		        $yArray = $year;
+			$baseYear = "-year";
+		        array_push($mergedArray,$baseYear,$yArray);
+		}
+		if($genreUrlVar!=""){
+		        $genre = explode(",", $genreUrlVar);
+		        $baseGenre = "-genre";
+		        array_push($mergedArray,$baseGenre);
+			for($i=0;$i<count($genre);$i++){
+		                array_push($mergedArray,$genre[$i]);
+		        }
+		}
+	
+	}
+
+	//splitting array when the page number is 1 
+	else{
+		$currentPage = 1;
+
+		if($castVar!=""){
+		        $cast = explode(",",$castVar);
+		        $baseCast = "-cast";
+		        array_push($mergedArray,$baseCast);
+			for($i=0;$i<count($cast);$i++){
+				array_push($mergedArray,$cast[$i]);
+			}
+		}
+	
+		if($keywordVar!=""){
+		        $keyword = explode(" ", $keywordVar);
+		        $baseKeyword = "-keyword";
+		        array_push($mergedArray,$baseKeyword);
+			for($i=0;$i<count($keyword);$i++){
+		                array_push($mergedArray,$keyword[$i]);
+		        }
+		}
+		if($yearVar!=""){
+		        $year = $yearVar;
+		        $yArray = $year;
+			$baseYear = "-year";
+		        array_push($mergedArray,$baseYear,$yArray);
+		}
+		if($genreVar!=""){
+		        $genre = explode(",", $genreVar);
+		        $baseGenre = "-genre";
+		        array_push($mergedArray,$baseGenre);
+			for($i=0;$i<count($genre);$i++){
+		                array_push($mergedArray,$genre[$i]);
+		        }
+		}
+	}
+        $client = new rabbitMQClient("dmz.ini","testServer");
+
+	//api request
+        $request = array();
+        $request['type'] = "discover";
+        $request['params']= $mergedArray;
+        $request['page']="$currentPage";
+	$response = $client->send_request($request);
+
+	//printing out api request results
+        if($response == true){
+		echo "<div class='columns'>";
+                foreach($response['data'] as $movie){
+                        echo "<br>";
+                        foreach($movie as $key => $value){
+                                if($key=="poster_path"){
+                                        echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
+                                        echo "<br>";
+                                }
+                        }
+
+                        foreach($movie as $key => $value){
+                                if($key=="title"){
+                                        echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
+                                }
+			}
+			foreach($movie as $key => $value){
+
+                                if($key=="release_date"){
+                                        echo "Release Date: $value<br>";
+                                }
+                        }
+                }
+		echo "</div>";
+        }
+}
+
 ?>
+	<!--next and previous pages-->
+	<footer>
+		<?php echo"<p>";
+		if($currentPage != 1){
+			$previous = $currentPage - 1;
+			echo "<a href='discoverAct.php?page=".$previous."&castVar=".$castVar."&keywordVar=".$keywordVar."&yearVar=".$yearVar."&genreVar=".$genreVar."'>Previous Page</a>";
+			echo "&nbsp;&nbsp;&nbsp;";			
+			$next = $currentPage + 1;
+			echo "<a href='discoverAct.php?page=".$next."&castVar=".$castVar."&keywordVar=".$keywordVar."&yearVar=".$yearVar."&genreVar=".$genreVar."'>Next Page</a><br>";
+		}
+		if($currentPage == 1){
+			$next = $currentPage + 1;
+			echo "<a href='discoverAct.php?page=".$next."&castVar=".$castVar."&keywordVar=".$keywordVar."&yearVar=".$yearVar."&genreVar=".$genreVar."'>Next Page</a><br>";
+		}
+		echo"</p>";
+		?>
+	</footer>
 </body>
 </html>
 <?php
