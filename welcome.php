@@ -35,7 +35,7 @@ if(!isset($_SESSION["sess_user"])){
 			<li><a href="classics.php">Classics</a></li>
 			<li><a href="discover.php">Discover</a></li>
 			<li><a href="showtimes.php">Showtimes</a></li>
-			<li><a href="forum.php">Forums</a></li>
+			<li><a href="forum.php">Forum</a></li>
 			<li><form>
 				<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
@@ -47,7 +47,7 @@ if(!isset($_SESSION["sess_user"])){
         </nav>
 	</nav>
 	
-	<h2>Welcome to JLEOMD, <?=$_SESSION['sess_user'];?>!</h2>
+	<h2>Welcome to JLEOMDB, <?=$_SESSION['sess_user'];?>!</h2>
 </body>
 </html>
 <?php
