@@ -10,10 +10,16 @@
         format('truetype');
 }
 
+img{
+	border-radius: 9px;
+	display: block;
+}
+
 body{
-	margin: 0;
-	padding: 0;
+	/*margin: 0;
+	padding: 0;*/
 	background-color:#f0f5f5;
+	font-family: 'Arial', sans-serif;
         
 }
 h1{
@@ -131,6 +137,21 @@ ul.main_menu{
 	 -moz-column-count: 5;
 	 -webkit-column-count: 5;
 	 column-count: 5;
+	font-family: 'Julius';
+	font-size: 80%;
+	margin-left: 7%;
+}
+
+h2{
+	margin-left: 2%;       
+	font-size: 80%;
+        font-family: 'Julius';
+}
+
+.showtimes{
+	font-family: 'Julius';
+	font-size: 80%;
+	margin-left: 5%;
 }
 
 .slicknav_menu {
@@ -144,6 +165,7 @@ ul.main_menu{
 	}
 	.slicknav_menu {
 		display: block;
+		z-index:1000;
 	}
 	.columns{
 		 -moz-column-count: 1;
@@ -168,6 +190,7 @@ ul.main_menu{
 	}
 	.slicknav_menu {
 		display: block;
+		z-index:1000;
 	}
 	.columns{
 		 -moz-column-count: 2;
