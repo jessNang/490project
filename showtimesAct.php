@@ -24,24 +24,6 @@ if(!isset($_SESSION["sess_user"])){
 			$('#nav_menu').slicknav({prependTo:"#mobile_menu"});
 	    	});
    	</script>
-
-	<!--script for finding user location-->
-	<script type="text/javascript">
-		var x = document.getElementById("demo");
-		function getLocation(){
-			if (navigator.geolocation){
-				navigator.geolocation.getCurrentPosition(showPosition);
-			}
-			else{ 
-				x.innerHTML = "Geolocation is not supported by this browser.";
-			}
-		}
-
-		function showPosition(position){
-			document.cookie = "latitude =" + position.coords.latitude;
-			document.cookie = "longitude =" + position.coords.longitude;
-		}
-	</script>
 </head>
 <body>
 	<!-- Navigation bar -->
@@ -64,17 +46,6 @@ if(!isset($_SESSION["sess_user"])){
 		</ul>
     	</nav>
 	</nav>
-
-	<div id="theForm" class="container" style="display:">
-		<form action="showtimesAct.php" method="POST">
-		    	<p>Movie</p>
-		    	<input type="text" name="movieName" id="movieName" placeholder="Movie Name" onblur="getLocation()">
-			<p>Search Area</p>
-			<input type="text" name="radius" id="radius" placeholder="Radius (miles): 5, 10, 15, or 20">
-			<input type="submit" name="submit" value="Showtimes">
-		</form>
-    	</div>
-	<p id="demo"></p>
 <?php
 require_once('path.inc');
 require_once('get_host_info.inc');
@@ -165,7 +136,58 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 	//Link to find similar movies to current movie
 	echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
+else{
+//showtimes information
+	$lat=$_COOKIE["latitude"];
+	$lon=$_COOKIE["longitude"];
 
+	require_once('path.inc');
+	require_once('get_host_info.inc');
+	require_once('rabbitMQLib.inc');
+
+	if(isset($_POST["submit"])){
+	    	$movieName=$_POST['movieName'];
+		$radius=$_POST['radius'];
+		echo "<br><h2>Showtimes for $movieName within a $radius mile radius: </h2><br>";
+	
+		$client = new rabbitMQClient("dmz.ini","testServer");
+	
+		//passing user info array to be inserted into database
+		$request = array();
+		$request['type'] = "showtimes";
+		$request['movie'] = $movieName;
+		$request['radius'] = $radius;
+		$request['latitude'] = $lat;
+		$request['longitude'] = $lon;
+	
+		$response = $client->send_request($request);
+
+		if($response == true){
+			echo "<div class='showtimes'>";
+			foreach($response['data'] as $showtime){
+				echo "<br>";
+
+				foreach($showtime as $key => $value){
+		                	if($key=="cinema_id"){
+		                        	echo "<b>Cinema ID:</b> $value &nbsp;";
+		                	}
+				}
+			
+				foreach($showtime as $key => $value){
+		                	if($key=="movie_id"){
+						echo "<b>Movie ID:</b> $value &nbsp;";
+					}
+				}
+				foreach($showtime as $key => $value){
+					if($key=="start_at"){
+						echo "<b>Start Time:</b> $value<br>";
+					}
+				}
+			}
+			echo "</div>";	
+		}
+	}
+}
 ?>
 </body>
 </html>
