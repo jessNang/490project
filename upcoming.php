@@ -1,28 +1,42 @@
 <?php
+#upcoming page
 #starts session and connects to the user
 session_start();
 if(!isset($_SESSION["sess_user"])){
         header("location:login.php");
 } else {
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
         <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=">
         <title>Upcoming</title>
 	<link rel="stylesheet" href="rate.css">
         <link rel="stylesheet" href="welcome.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="slicknav.css">
+    	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    	<script src="jquery.slicknav.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#nav_menu').slicknav({prependTo:"#mobile_menu"});
+	    	});
+    	</script>
 
 </head>
 <body>
-        <nav>
+	<!-- Navigation bar -->
+        <nav id="mobile_menu">
+	<nav id="nav_menu">
                 <ul class="main_menu">
                         <li><a href="welcome.php">Home</a></li>
                         <li><a href="nowplaying.php">Now Playing</a><li>
                         <li><a href="upcoming.php">Upcoming</a></li>
                         <li><a href="classics.php">Classics</a></li>
                         <li><a href="discover.php">Discover</a></li>
+			<li><a href="showtimes.php">Showtimes</a></li>
+			<li><a href="forum.php">Forum</a></li>
                         <li><form method="post">
                         	<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
@@ -31,26 +45,31 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="logout.php">Logout</a></li>
                 </ul>
         </nav>
-        </div>
+	</nav>
 
 <?php
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+//movie search -> if user typed movie title into search bar
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 	$title=$_REQUEST['search'];
 	$category = array();
 	array_push($category, $title);
 	$client = new rabbitMQClient("dmz.ini","testServer");
 
+	//api request array for movie user searched
 	$request = array();
 	$request['type'] = "find";
 	$request['params'] = $category;
 	$request['page'] = "";
 	$response = $client->send_request($request);
 	$movieTitle;
+	
+	//Printing api results
 	if($response == true){
+		//Movie poster
         	foreach($movie as $key => $value){
                 	if($key=="poster_path"){
 #                       	echo "<table style='width:100%'><td><img src='https://image.tmdb.org/t/p/w342".$value."'></td>"; 
@@ -59,6 +78,8 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                         	#echo "<br>";
                 	}
         	}
+			
+			//Movie title
         	foreach($response['data'] as $key => $value){
                 	if($key=="title"){
                         	#echo "<td>$value<br><br>";
@@ -66,9 +87,12 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                         	$movieTitle=$value;
                 	}
         	}
+			
+			//Movie Rating
         	echo "Rating: ";
         ?>
         <form>
+	<!--Rating stars -->
         <fieldset class="starability-growRotate">
                 <input type="radio" id="rate5" name="rating" value="5" />
                 <label for="rate5" title="Terrible">5 stars</label>
@@ -87,11 +111,14 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         </fieldset>
         </form>
 	<?php
-        	foreach($response['data'] as $key => $value){
+        	//Movie's release date
+			foreach($response['data'] as $key => $value){
                 	if($key=="release_date"){
                         	echo "Release Date: $value<br><br>";
                 	}
         	}
+			
+			//Genres associated with the movie
         	foreach($response['data'] as $key => $value){
                 	if($key=="genre_ids"){
                         	echo "Genre: ";
@@ -101,6 +128,8 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                         	echo "<br><br>";
                 	}
         	}
+			
+			//Movie's overview
         	foreach($response['data'] as $key => $value){
                 	if($key=="overview"){
                         	#echo "Overview: $value<br></td></tr></table><br>";
@@ -108,40 +137,73 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                 	}
         	}
 	}
+	
+	//Link to find similar movies to current movie
 	echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
 
+//upcoming movies
 else{
 	$client = new rabbitMQClient("dmz.ini","testServer");
-
+	$pageNumber=$_REQUEST['page'];
+	if(($pageNumber != "") && ($pageNumber != "1")){
+		$currentPage = intval($pageNumber);
+	}
+	else{
+		$currentPage = 1;
+	}
+	//upcoming movies api request
 	$request = array();
 	$request['type'] = "upcoming";
-	$request['page'] = "";
+	$request['page'] = "$currentPage";
 	$response = $client->send_request($request);
 
+	//printing out the api results
 	if($response == true){
+		echo "<div class='columns'>";
 		foreach($response['data'] as $movie){
 			echo "<br>";
+			
+			//Movie Poster
 			foreach($movie as $key => $value){
                         	if($key=="poster_path"){
                                 	echo "<img src='https://image.tmdb.org/t/p/w300".$value."' height='150'>";
                                 	echo "<br>";
                         	}
 			}
-
+			
+			//Movie title
 			foreach($movie as $key => $value){
                         	if($key=="title"){
+									//link to page with detailed info about the movie
                                		echo "<a href='movieFind.php?category=".$value."'>$value</a><br>";
                         	}
-
+				//Movie's release date
 				if($key=="release_date"){
 					echo "Release Date: $value<br>";
 				}
 			}
 		}
+		echo "</div>";
 	}
 }
 ?>
+	<footer>
+		<?php echo"<p>";
+		if($currentPage != 1){
+			$previous = $currentPage - 1;
+			echo "<a href='upcoming.php?page=".$previous."'>Previous Page</a>";
+			echo "&nbsp;&nbsp;&nbsp;";
+			$next = $currentPage + 1;
+			echo "<a href='upcoming.php?page=".$next."'>Next Page</a><br>";
+		}
+		if($currentPage == 1){
+			$next = $currentPage + 1;
+			echo "<a href='upcoming.php?page=".$next."'>Next Page</a><br>";
+		}
+		echo"</p>";
+		?>
+	</footer>
 </body>
 </html>
 <?php
@@ -171,3 +233,4 @@ if(isset($_SESSION['last_action'])){
 $_SESSION['last_action'] = time();
 }
 ?>
+
