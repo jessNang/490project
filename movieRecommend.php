@@ -34,6 +34,8 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="upcoming.php">Upcoming</a></li>
                         <li><a href="classics.php">Classics</a></li>
                         <li><a href="discover.php">Discover</a></li>
+			<li><a href="showtimes.php">Showtimes</a></li>
+			<li><a href="forum.php">Forum</a></li>
                         <li><form>
                         	<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
@@ -50,18 +52,22 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
+//movie search
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
         array_push($category, $title);
         $client = new rabbitMQClient("dmz.ini","testServer");
-
+	
+	//api request for movie search
         $request = array();
         $request['type'] = "find";
         $request['params'] = $category;
         $request['page'] = "";
         $response = $client->send_request($request);
         $movieTitle;
+
+	//printing api results
         if($response == true){
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
@@ -122,6 +128,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
 
+//movie recommendations
 else{
 	$movie=$_REQUEST['movie'];
 	echo "Similar movies to $movie: <br><br>";
@@ -129,18 +136,22 @@ else{
 	array_push($category, $movie);
 	$client = new rabbitMQClient("dmz.ini","testServer");
 	$pageNumber=$_REQUEST['page'];
+
 	if(($pageNumber != "") && ($pageNumber != "1")){
 		$currentPage = intval($pageNumber);
 	}
 	else{
 		$currentPage = 1;
 	}
+	
+	//recommend api request
 	$request = array();
 	$request['type'] = "recommend";
 	$request['params'] = $category;
 	$request['page'] = "$currentPage";
 	$response = $client->send_request($request);
 
+	//printing api request results
 	if($response == true){
 		echo "<div class='columns'>";
         	foreach($response['data'] as $movie){
@@ -167,6 +178,7 @@ else{
 	}
 }
 ?>
+	<!--next and previous pages-->
 	<footer>
 		<?php echo"<p>";
 		if($currentPage != 1){

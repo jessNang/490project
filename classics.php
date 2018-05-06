@@ -33,7 +33,9 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="upcoming.php">Upcoming</a></li>
                         <li><a href="classics.php">Classics</a></li>
                         <li><a href="discover.php">Discover</a></li>
-                        <li><form>
+                        <li><a href="showtimes.php">Showtimes</a></li>
+			<li><a href="forum.php">Forum</a></li>
+			<li><form>
                         	<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
 			</form></li>

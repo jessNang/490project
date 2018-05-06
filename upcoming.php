@@ -1,5 +1,5 @@
 <?php
-#upcoming page 1
+#upcoming page
 #starts session and connects to the user
 session_start();
 if(!isset($_SESSION["sess_user"])){
@@ -35,6 +35,8 @@ if(!isset($_SESSION["sess_user"])){
                         <li><a href="upcoming.php">Upcoming</a></li>
                         <li><a href="classics.php">Classics</a></li>
                         <li><a href="discover.php">Discover</a></li>
+			<li><a href="showtimes.php">Showtimes</a></li>
+			<li><a href="forum.php">Forum</a></li>
                         <li><form method="post">
                         	<input type="search" name="search" placeholder="Search movies...">
                                 <a class="fa fa-search"></a>
@@ -44,14 +46,13 @@ if(!isset($_SESSION["sess_user"])){
                 </ul>
         </nav>
 	</nav>
-        </div>
 
 <?php
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-//if user typed movie title into search bar
+//movie search -> if user typed movie title into search bar
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 	$title=$_REQUEST['search'];
 	$category = array();
@@ -91,7 +92,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         	echo "Rating: ";
         ?>
         <form>
-		<!--Rating stars -->
+	<!--Rating stars -->
         <fieldset class="starability-growRotate">
                 <input type="radio" id="rate5" name="rating" value="5" />
                 <label for="rate5" title="Terrible">5 stars</label>
@@ -137,11 +138,11 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         	}
 	}
 	
-	////Link to find similar movies to current movie
+	//Link to find similar movies to current movie
 	echo "<a href='movieRecommend.php?movie=".$movieTitle."'>Similar Movies</a><br>";
 }
 
-
+//upcoming movies
 else{
 	$client = new rabbitMQClient("dmz.ini","testServer");
 	$pageNumber=$_REQUEST['page'];
