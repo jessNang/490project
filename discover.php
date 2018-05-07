@@ -89,15 +89,12 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         if($response == true){
                 foreach($movie as $key => $value){
                         if($key=="poster_path"){
-#                               echo "<table style='width:100%'><td><img src='https://image.tmdb.org/t/p/w342".$value."'></td>"; 
                                  #echo "<img src='https://image.tmdb.org/t/p/w342".$value."'>";     
                                 echo "<img src='https://image.tmdb.org/t/p/w342".$value."' height='150'>";
-                                #echo "<br>";
                         }
                 }
                 foreach($response['data'] as $key => $value){
                         if($key=="title"){
-                                #echo "<td>$value<br><br>";
                                 echo "$value<br><br>";
                                 $movieTitle=$value;
                         }
@@ -138,7 +135,6 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
                 }
                 foreach($response['data'] as $key => $value){
                         if($key=="overview"){
-                                #echo "Overview: $value<br></td></tr></table><br>";
                                  echo "Overview: $value<br><br>";
                         }
                 }

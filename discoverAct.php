@@ -125,7 +125,7 @@ if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 }
 
 //movie discover
-if(isset($_POST["submit"])){
+else{
         $mergedArray = array();
 
 	//getting variables from form
@@ -259,10 +259,10 @@ if(isset($_POST["submit"])){
 		<?php echo"<p>";
 		if($currentPage != 1){
 			$previous = $currentPage - 1;
-			echo "<a href='discoverAct.php?page=".$previous."&castVar=".$castVar."&keywordVar=".$keywordVar."&yearVar=".$yearVar."&genreVar=".$genreVar."'>Previous Page</a>";
+			echo "<a href='discoverAct.php?page=".$previous."&castVar=".$castUrlVar."&keywordVar=".$keywordUrlVar."&yearVar=".$yearUrlVar."&genreVar=".$genreUrlVar."'>Previous Page</a>";
 			echo "&nbsp;&nbsp;&nbsp;";			
 			$next = $currentPage + 1;
-			echo "<a href='discoverAct.php?page=".$next."&castVar=".$castVar."&keywordVar=".$keywordVar."&yearVar=".$yearVar."&genreVar=".$genreVar."'>Next Page</a><br>";
+			echo "<a href='discoverAct.php?page=".$next."&castVar=".$castUrlVar."&keywordVar=".$keywordUrlVar."&yearVar=".$yearUrlVar."&genreVar=".$genreUrlVar."'>Next Page</a><br>";
 		}
 		if($currentPage == 1){
 			$next = $currentPage + 1;
