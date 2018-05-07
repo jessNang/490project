@@ -272,11 +272,125 @@ class ConvertForAPI {
 		{
 			//trim the response so only the TMDB id of the keyword is returned
 			$parts = explode("\"id\":", $response);
-			print_r($parts);
+			//print_r($parts);
 			$parts = explode(",", $parts[1]);
 			$keywordid = $parts[0];
 			return $keywordid;
 		}
 	}
+
+	//converts a imdbID to a international show times id
+	public static function _movieIMDBtoShowtime($imdbid) {
+		//initialize the logger
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
+		$curl = curl_init();
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.internationalshowtimes.com/v4/movies/?imdb_id=$imdbid&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$jsonResponse = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err)
+		{
+			echo "cURL Error #:" . $err;
+			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
+			
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
+		}
+		else
+		{
+			//format the response to only get the showtime id
+			//print("showtime raw data:" . PHP_EOL);			
+			//print_r($jsonResponse);
+			$parts = explode("\"id\":", $jsonResponse);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$parts = explode(",", $parts[1]);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$parts = explode("\"", $parts[0]);
+			$showtimesid = $parts[1];
+			//print("ShowtimeID: $showtimesid" . PHP_EOL);
+			
+			return $showtimesid;
+		}
+	}
+
+	//converts an international show times cinema id into english
+	public static function _showtimeCinemaToString($cinemaID) {
+		//initialize the logger
+		$logClient = new rabbitMQClient('../toLog.ini', 'testServer');
+        	$logger = new Logger();
+
+		$curl = curl_init();
+
+		//echo ("request: https://api.internationalshowtimes.com/v4/cinemas/?cinema_id=$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI");
+
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://api.internationalshowtimes.com/v4/cinemas/?cinema_id=$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI",
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => "",
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 30,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => "GET",
+			CURLOPT_POSTFIELDS => "{}",
+		));
+
+		$jsonResponse = curl_exec($curl);
+		$err = curl_error($curl);
+
+		curl_close($curl);
+
+		if ($err)
+		{
+			echo "cURL Error #:" . $err;
+			$error = (date('m/d/Y h:i:s a', time())." ".gethostname()." "." Error occured in ".__FILE__." LINE ".__LINE__." cURL Error #: ".$err.PHP_EOL);
+			
+			$eventMessage = "ERROR: " . $error;
+        		$sendLog = $logger->logArray('error',$eventMessage,__FILE__);
+			$testVar = $logClient->publish($sendLog);
+		}
+		else
+		{
+			//format the response to only get the showtime id
+			//print("cinema raw data:" . PHP_EOL);			
+			//print_r($jsonResponse);
+			$parts = explode("\"id\":", $jsonResponse);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$parts = explode(",", $parts[1]);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$parts = explode(":\"", $parts[2]);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$parts = explode("\"", $parts[1]);
+			//print(PHP_EOL . PHP_EOL);			
+			//print_r($parts);
+			$cinemaName = $parts[0];
+			//print(PHP_EOL . PHP_EOL);
+			//print("cinema Name: $cinemaName" . PHP_EOL);
+			
+			return $cinemaName;
+		}
+	}
+
+
 }
 ?>

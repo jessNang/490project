@@ -7,6 +7,7 @@ include 'class.movieAPIRecommendations.php';
 include 'class.movieAPIUpcoming.php';
 include 'class.movieAPICurrentReleases.php';
 include 'class.movieAPIClassics.php';
+include 'class.showtimes.php';
 
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
@@ -99,9 +100,12 @@ function requestProcessor($request)
 				        $testVar = $logClient->publish($sendLog);
 					break;
 
-		case "showtimes":	$showtimeParams = $request['params']; //get params from queue
+		case "showtimes":	$showtimeMovie = $request['movie']; //get params from queue
+					$showtimeRadius = $request['radius'];
+					$showtimeLatitude = $request['latitude'];
+					$showtimeLongitude = $request['longitude'];
 					$response['type'] = "showtimes";
-					$response['data'] = showtimes::_showtimes($showtimeParams);
+					$response['data'] = showtimes::_showtimes($showtimeMovie, $showtimeRadius, $showtimeLatitude, $showtimeLongitude);
 
 					//log that the event was processed
 					$eventMessage = "Processing api request: " .$request['type'];
