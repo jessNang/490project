@@ -97,32 +97,16 @@ class showtimes {
 					$cinemaIDandName[$cinemaID] = $cinemaName;
 				}
 
-				/*
-				try {
-					$cinemaName = $cinemaIDandName[$arrayResponse[$i]["cinema_id"]];
-					print("in the try" . PHP_EOL);
-				} catch(Exception $e)	{
-					print("in the catch" . PHP_EOL);
-					$cinemaName = ConvertForAPI::_showtimeCinemaToString($arrayResponse[$i]["cinema_id"]);
-					$cinemaID = $arrayResponse[$i]["cinema_id"];
-					$cinemaIDandName[$cinemaID] = $cinemaName;
-				}
-				
-				
-				$cinemaName = ConvertForAPI::_showtimeCinemaToString($arrayResponse[$i]["cinema_id"]);
-				$cinemaID = $arrayResponse[$i]["cinema_id"];
-				$cinemaIDandName[$cinemaID] = $cinemaName;
-				*/
-
 				$arrayResponse[$i]["cinema_id"] = $cinemaName;
 			}
 			
+			/*
 			print(PHP_EOL . "id name array" . PHP_EOL);
 			print_r($cinemaIDandName);
 
 			print(PHP_EOL . "response" . PHP_EOL);
 			print_r($arrayResponse);
-			
+			*/
 			return $arrayResponse;
 		}
 	}
