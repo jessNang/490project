@@ -70,7 +70,7 @@ if(!isset($_SESSION["sess_user"])){
 		    	<p>Movie</p>
 		    	<input type="text" name="movieName" id="movieName" placeholder="Movie Name" onblur="getLocation()">
 			<p>Search Area</p>
-			<input type="text" name="radius" id="radius" placeholder="Radius (miles): 5, 10, 15, or 20">
+			<input type="text" name="radius" id="radius" placeholder="Radius (km): 5, 10, 15, or 20">
 			<input type="submit" name="submit" value="Showtimes">
 		</form>
     	</div>

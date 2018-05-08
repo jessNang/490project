@@ -3,6 +3,8 @@
 session_start();
 unset($_SESSION['sess_user']);
 unset($_SESSION['sess_email']);
+unset($_SESSION['longitude']);
+unset($_SESSION['latitude']);
 session_destroy();
 header("location:login.php");
 ?>

@@ -14,10 +14,5 @@ $request['type'] = "getComment";
 
 $response = $client->send_request($request);
 
-if($response['valid'] === true){
-	echo $response['output'];
-}
-else{
-	echo "Getting comment unsuccessful";
-}
+echo $response['output'];
 ?>

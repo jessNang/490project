@@ -1,5 +1,4 @@
 <?php
-//addComment.php
 //adds comment into database
 require_once('path.inc');
 require_once('get_host_info.inc');
@@ -9,6 +8,7 @@ $error = '';
 $comment_name = '';
 $comment_content = '';
 
+//makes sure the name and message fields aren't empty
 if(empty($_POST["comment_name"])){
 	$error .= '<p class="text-danger">Name is required</p>';
 } else{
@@ -23,12 +23,13 @@ if(empty($_POST["comment_content"])){
 
 $comment_id = $_POST["comment_id"];
 
+//if there's no error send to db 
 if($error == ''){
 	$client = new rabbitMQClient("db.ini","testServer");
 		
 	//passing comment info array to be inserted into database
 	$request = array();
-	$request['type'] = "addComment";
+  	$request['type'] = "addComment";
 	$request['error'] = $error;
 	$request['commentName'] = $comment_name;
 	$request['commentContent'] = $comment_content;
@@ -36,8 +37,6 @@ if($error == ''){
 
 	$response = $client->send_request($request);
 
-	if($response['valid'] === true){
-		echo $response['output'];
-	}
+	echo json_encode($response[0]);
 }
 ?>

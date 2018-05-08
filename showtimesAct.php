@@ -148,7 +148,7 @@ else{
 	if(isset($_POST["submit"])){
 	    	$movieName=$_POST['movieName'];
 		$radius=$_POST['radius'];
-		echo "<br><h2>Showtimes for $movieName within a $radius mile radius: </h2><br>";
+		echo "<br><h2>Showtimes for $movieName within a $radius kilometer radius: </h2><br>";
 	
 		$client = new rabbitMQClient("dmz.ini","testServer");
 	
