@@ -342,7 +342,7 @@ class ConvertForAPI {
 		//echo ("request: https://api.internationalshowtimes.com/v4/cinemas/?cinema_id=$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI");
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.internationalshowtimes.com/v4/cinemas/?cinema_id=$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI",
+			CURLOPT_URL => "https://api.internationalshowtimes.com/v4/cinemas/?$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI",	//"https://api.internationalshowtimes.com/v4/cinemas/?cinema_id=$cinemaID&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI"
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -369,28 +369,30 @@ class ConvertForAPI {
 		else
 		{
 			//format the response to only get the showtime id
+			//echo ($cinemaID);
+
 			//print("cinema raw data:" . PHP_EOL);			
 			//print_r($jsonResponse);
 			$parts = explode("\"id\":", $jsonResponse);
-			//print(PHP_EOL . PHP_EOL);			
+			//print(PHP_EOL . "after the first split" . PHP_EOL);			
 			//print_r($parts);
-			$parts = explode(",", $parts[1]);
-			//print(PHP_EOL . PHP_EOL);			
-			//print_r($parts);
-			$parts = explode(":\"", $parts[2]);
-			//print(PHP_EOL . PHP_EOL);			
-			//print_r($parts);
-			$parts = explode("\"", $parts[1]);
-			//print(PHP_EOL . PHP_EOL);			
-			//print_r($parts);
-			$cinemaName = $parts[0];
-			//print(PHP_EOL . PHP_EOL);
+			
+			$response = array();
+			for($i = 1; $i < count($parts); $i++)
+			{
+				$chunk = explode("\",\"", $parts[$i]);
+				$chunkID = explode("\"", $chunk[0]);
+				$ID = $chunkID[1];
+				$chunkName = explode("\":\"", $chunk[2]);
+				$name = $chunkName[1];
+				$response[$ID] = $name;
+			}
+
+			$cinemaName = $response[$cinemaID];
 			//print("cinema Name: $cinemaName" . PHP_EOL);
 			
 			return $cinemaName;
 		}
 	}
-
-
 }
 ?>

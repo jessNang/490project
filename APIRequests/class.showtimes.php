@@ -29,7 +29,7 @@ class showtimes {
 
 		$curl = curl_init();
 
-		echo ("https://api.internationalshowtimes.com/v4/showtimes/?movie_id=$movieID&location=$lat,$lon&distance=$distance&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI");
+		//echo ("https://api.internationalshowtimes.com/v4/showtimes/?movie_id=$movieID&location=$lat,$lon&distance=$distance&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI");
 		
 		curl_setopt_array($curl, array(
 			CURLOPT_URL => "https://api.internationalshowtimes.com/v4/showtimes/?movie_id=$movieID&location=$lat,$lon&distance=$distance&apikey=j4TiQgpVkhJ3R9p3FGIoAjEALYCmjYJI",	
@@ -100,13 +100,13 @@ class showtimes {
 				$arrayResponse[$i]["cinema_id"] = $cinemaName;
 			}
 			
-			/*
-			print(PHP_EOL . "id name array" . PHP_EOL);
-			print_r($cinemaIDandName);
+			
+			//print(PHP_EOL . "id name array" . PHP_EOL);
+			//print_r($cinemaIDandName);
 
-			print(PHP_EOL . "response" . PHP_EOL);
-			print_r($arrayResponse);
-			*/
+			//print(PHP_EOL . "response" . PHP_EOL);
+			//print_r($arrayResponse);
+			
 			return $arrayResponse;
 		}
 	}
