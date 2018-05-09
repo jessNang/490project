@@ -102,7 +102,7 @@ while(true)
 
 	
 	//sends the new package
-	$output = shell_exec("scp $updateName.tar.gz myles@pkgmanager:/home/myles/System Archive/active");
+	$output = shell_exec("scp $updateName.tar.gz myles@pkgmanager:/home/myles/SystemArchive/active");
 	// send rabbit message to pkgmanager saying that a new package is available for QA
 	
 	
