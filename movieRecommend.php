@@ -51,13 +51,17 @@ if(!isset($_SESSION["sess_user"])){
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include('doPingDmz.php');
+
+$iniFile="";
+doPing();
 
 //movie search
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
         array_push($category, $title);
-        $client = new rabbitMQClient("dmz.ini","testServer");
+        $client = new rabbitMQClient($iniFile,"testServer");
 	
 	//api request for movie search
         $request = array();
@@ -134,7 +138,7 @@ else{
 	echo "Similar movies to $movie: <br><br>";
 	$category = array();
 	array_push($category, $movie);
-	$client = new rabbitMQClient("dmz.ini","testServer");
+	$client = new rabbitMQClient($iniFile,"testServer");
 	$pageNumber=$_REQUEST['page'];
 
 	if(($pageNumber != "") && ($pageNumber != "1")){
