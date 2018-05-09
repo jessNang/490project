@@ -8,6 +8,7 @@ include 'class.movieAPIUpcoming.php';
 include 'class.movieAPICurrentReleases.php';
 include 'class.movieAPIClassics.php';
 include 'class.showtimes.php';
+include '../doPing.php';
 
 require_once('../../../git/rabbitmqphp_example/path.inc');
 require_once('../../../git/rabbitmqphp_example/get_host_info.inc');
@@ -123,8 +124,8 @@ function requestProcessor($request)
 	return $response;
 }
 
-
-$server = new rabbitMQServer("../toDMZ.ini","testServer");
+$ini = doPing();
+$server = new rabbitMQServer("../$ini","testServer");
 $server->process_requests('requestProcessor');
 exit();
 ?>
