@@ -1,20 +1,20 @@
 <?php
 
-function doPing()
+function doPingLog()
 {
 	$host = "rmqdb";
 	
 	global $iniFile;
-	$iniFile = "";
+	$iniFileLog = "";
 
 	exec("ping -c 4 " . $host, $output, $result);
 
 	if ($result == 0)
-		$iniFile = "testRabbitMQ.ini";
+		$iniFileLog = "toLog.ini";
 	else
-		$iniFile = "testRabbitMQ.ini";
+		$iniFileLog = "toLog2.ini";
 
-	return $iniFile;
+	return $iniFileLog;
 }
 
 ?>
