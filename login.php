@@ -23,11 +23,15 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include('doPingDb.php');
+
+$iniFile="";
+doPing();
 
 if(isset($_POST["submit"])){
 	$user=$_POST['user'];
 	$pass=$_POST['password'];
-	$client = new rabbitMQClient("db.ini","testServer");
+	$client = new rabbitMQClient($iniFile,"testServer");
         
 	$request = array();
         $request['type'] = "login";

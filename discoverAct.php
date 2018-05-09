@@ -51,13 +51,17 @@ if(!isset($_SESSION["sess_user"])){
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include('doPingDmz.php');
+
+$iniFile="";
+doPing();
 
 //movie search
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
         $title=$_REQUEST['search'];
         $category = array();
         array_push($category, $title);
-        $client = new rabbitMQClient("dmz.ini","testServer");
+        $client = new rabbitMQClient($iniFile,"testServer");
 
 	//api request
         $request = array();
@@ -216,7 +220,7 @@ else{
 		        }
 		}
 	}
-        $client = new rabbitMQClient("dmz.ini","testServer");
+        $client = new rabbitMQClient($iniFile,"testServer");
 
 	//api request
         $request = array();
@@ -300,3 +304,4 @@ if(isset($_SESSION['last_action'])){
 $_SESSION['last_action'] = time();
 }
 ?>
+

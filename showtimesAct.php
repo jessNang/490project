@@ -50,13 +50,17 @@ if(!isset($_SESSION["sess_user"])){
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include('doPingDmz.php');
+
+$iniFile="";
+doPing();
 
 //movie search -> if user typed movie title into search bar
 if((isset($_REQUEST['search']))&&($_REQUEST['search']!="")){
 	$title=$_REQUEST['search'];
 	$category = array();
 	array_push($category, $title);
-	$client = new rabbitMQClient("dmz.ini","testServer");
+	$client = new rabbitMQClient($iniFile,"testServer");
 
 	//api request array for movie user searched
 	$request = array();
@@ -144,13 +148,17 @@ else{
 	require_once('path.inc');
 	require_once('get_host_info.inc');
 	require_once('rabbitMQLib.inc');
+	include('doPingDmz.php');
+
+	$iniFile="";
+	doPing();
 
 	if(isset($_POST["submit"])){
 	    	$movieName=$_POST['movieName'];
 		$radius=$_POST['radius'];
 		echo "<br><h2>Showtimes for $movieName within a $radius kilometer radius: </h2><br>";
 	
-		$client = new rabbitMQClient("dmz.ini","testServer");
+		$client = new rabbitMQClient($iniFile,"testServer");
 	
 		//passing user info array to be inserted into database
 		$request = array();
@@ -218,3 +226,4 @@ if(isset($_SESSION['last_action'])){
 $_SESSION['last_action'] = time();
 }
 ?>
+

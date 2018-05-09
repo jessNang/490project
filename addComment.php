@@ -3,6 +3,10 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
+include('doPingDb.php');
+
+$iniFile="";
+doPing();
 
 $error = '';
 $comment_name = '';
@@ -25,7 +29,7 @@ $comment_id = $_POST["comment_id"];
 
 //if there's no error send to db 
 if($error == ''){
-	$client = new rabbitMQClient("db.ini","testServer");
+	$client = new rabbitMQClient($iniFile,"testServer");
 		
 	//passing comment info array to be inserted into database
 	$request = array();
@@ -40,3 +44,4 @@ if($error == ''){
 	echo json_encode($response[0]);
 }
 ?>
+
