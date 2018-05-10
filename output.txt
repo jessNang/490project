@@ -1,0 +1,465 @@
+
+
+PKGMAN Ready! Send me P A C K A G E S ...
+
+
+received request
+array(3) {
+  ["type"]=>
+  string(11) "dmz_package"
+  ["packageName"]=>
+  string(13) "dmz_16.tar.gz"
+  ["destination"]=>
+  string(2) "QA"
+}
+Received: dmz_16.tar.gz For: QA
+Successfully coppied to Backup!
+
+Successfully extracted!
+
+
+
+pkgFolder is: dmz_16Array
+(
+    [] => 
+)
+Packaged files: 
+Array
+(
+    [0] => directory.conf
+
+    [1] => push.php
+
+    [2] => test3
+
+    [3] => updateNum.txt
+
+    [4] => output.txt
+
+    [5] => .pkgmanServer.php.swp
+
+    [6] => pkgmanServer.php
+
+    [7] => startPkgman.sh
+
+    [8] => rabbitmqphp/testRabbitMQServer.conf
+
+    [9] => rabbitmqphp/logger.inc
+
+    [10] => rabbitmqphp/toLog.ini
+
+    [11] => rabbitmqphp/get_host_info.inc
+
+    [12] => rabbitmqphp/.git/info/exclude
+
+    [13] => rabbitmqphp/.git/description
+
+    [14] => rabbitmqphp/.git/config
+
+    [15] => rabbitmqphp/.git/refs/remotes/origin/HEAD
+
+    [16] => rabbitmqphp/.git/refs/heads/master
+
+    [17] => rabbitmqphp/.git/HEAD
+
+    [18] => rabbitmqphp/.git/index
+
+    [19] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.pack
+
+    [20] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.idx
+
+    [21] => rabbitmqphp/.git/logs/refs/remotes/origin/HEAD
+
+    [22] => rabbitmqphp/.git/logs/refs/heads/master
+
+    [23] => rabbitmqphp/.git/logs/HEAD
+
+    [24] => rabbitmqphp/.git/hooks/prepare-commit-msg.sample
+
+    [25] => rabbitmqphp/.git/hooks/pre-commit.sample
+
+    [26] => rabbitmqphp/.git/hooks/pre-push.sample
+
+    [27] => rabbitmqphp/.git/hooks/post-update.sample
+
+    [28] => rabbitmqphp/.git/hooks/update.sample
+
+    [29] => rabbitmqphp/.git/hooks/commit-msg.sample
+
+    [30] => rabbitmqphp/.git/hooks/pre-rebase.sample
+
+    [31] => rabbitmqphp/.git/hooks/pre-applypatch.sample
+
+    [32] => rabbitmqphp/.git/hooks/applypatch-msg.sample
+
+    [33] => rabbitmqphp/.git/packed-refs
+
+    [34] => rabbitmqphp/testRabbitMQClient.php
+
+    [35] => rabbitmqphp/soccerData.php
+
+    [36] => rabbitmqphp/testRabbitMQServer.php
+
+    [37] => rabbitmqphp/testRabbitMQ.ini
+
+    [38] => rabbitmqphp/toPM.ini
+
+    [39] => rabbitmqphp/testSend.php
+
+    [40] => rabbitmqphp/toDB.ini
+
+    [41] => rabbitmqphp/._testRabbitMQServer.php.swp
+
+    [42] => rabbitmqphp/Logs/testLog.php
+
+    [43] => rabbitmqphp/Logs/log
+
+    [44] => rabbitmqphp/rpc/path.inc
+
+    [45] => rabbitmqphp/rpc/loginRequest.php
+
+    [46] => rabbitmqphp/rpc/local.ini
+
+    [47] => rabbitmqphp/rabbitMQLib.inc
+
+    [48] => rabbitmqphp/path.inc
+
+    [49] => rabbitmqphp/test/testphp.php
+
+    [50] => rabbitmqphp/test/testLog.php
+
+    [51] => rabbitmqphp/test/testSend.php
+
+    [52] => rabbitmqphp/test/roccoTest.php
+
+    [53] => rabbitmqphp/test/testAccess.php
+
+    [54] => rabbitmqphp/testRabbitMQServer.monit
+
+    [55] => rabbitmqphp/mongoClient.php
+
+    [56] => rabbitmqphp/toDMZ.ini
+
+    [57] => rabbitmqphp/composer.json
+
+    [58] => rabbitmqphp/.log.php.swp
+
+    [59] => rabbitmqphp/local.ini
+
+    [60] => rabbitmqphp/host.ini
+
+    [61] => test1
+
+    [62] => .push.php.swp
+
+    [63] => test2
+
+)
+processed one-way message
+received request
+array(3) {
+  ["type"]=>
+  string(11) "dmz_package"
+  ["packageName"]=>
+  string(13) "dmz_17.tar.gz"
+  ["destination"]=>
+  string(2) "QA"
+}
+Received: dmz_17.tar.gz For: QA
+Successfully coppied to Backup!
+
+Successfully extracted!
+
+
+
+pkgFolder is: dmz_17Array
+(
+    [] => 
+)
+Packaged files: 
+Array
+(
+    [0] => directory.conf
+
+    [1] => push.php
+
+    [2] => test3
+
+    [3] => updateNum.txt
+
+    [4] => output.txt
+
+    [5] => .pkgmanServer.php.swp
+
+    [6] => pkgmanServer.php
+
+    [7] => startPkgman.sh
+
+    [8] => rabbitmqphp/testRabbitMQServer.conf
+
+    [9] => rabbitmqphp/logger.inc
+
+    [10] => rabbitmqphp/toLog.ini
+
+    [11] => rabbitmqphp/get_host_info.inc
+
+    [12] => rabbitmqphp/.git/info/exclude
+
+    [13] => rabbitmqphp/.git/description
+
+    [14] => rabbitmqphp/.git/config
+
+    [15] => rabbitmqphp/.git/refs/remotes/origin/HEAD
+
+    [16] => rabbitmqphp/.git/refs/heads/master
+
+    [17] => rabbitmqphp/.git/HEAD
+
+    [18] => rabbitmqphp/.git/index
+
+    [19] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.pack
+
+    [20] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.idx
+
+    [21] => rabbitmqphp/.git/logs/refs/remotes/origin/HEAD
+
+    [22] => rabbitmqphp/.git/logs/refs/heads/master
+
+    [23] => rabbitmqphp/.git/logs/HEAD
+
+    [24] => rabbitmqphp/.git/hooks/prepare-commit-msg.sample
+
+    [25] => rabbitmqphp/.git/hooks/pre-commit.sample
+
+    [26] => rabbitmqphp/.git/hooks/pre-push.sample
+
+    [27] => rabbitmqphp/.git/hooks/post-update.sample
+
+    [28] => rabbitmqphp/.git/hooks/update.sample
+
+    [29] => rabbitmqphp/.git/hooks/commit-msg.sample
+
+    [30] => rabbitmqphp/.git/hooks/pre-rebase.sample
+
+    [31] => rabbitmqphp/.git/hooks/pre-applypatch.sample
+
+    [32] => rabbitmqphp/.git/hooks/applypatch-msg.sample
+
+    [33] => rabbitmqphp/.git/packed-refs
+
+    [34] => rabbitmqphp/testRabbitMQClient.php
+
+    [35] => rabbitmqphp/soccerData.php
+
+    [36] => rabbitmqphp/testRabbitMQServer.php
+
+    [37] => rabbitmqphp/testRabbitMQ.ini
+
+    [38] => rabbitmqphp/toPM.ini
+
+    [39] => rabbitmqphp/testSend.php
+
+    [40] => rabbitmqphp/toDB.ini
+
+    [41] => rabbitmqphp/._testRabbitMQServer.php.swp
+
+    [42] => rabbitmqphp/Logs/testLog.php
+
+    [43] => rabbitmqphp/Logs/log
+
+    [44] => rabbitmqphp/rpc/path.inc
+
+    [45] => rabbitmqphp/rpc/loginRequest.php
+
+    [46] => rabbitmqphp/rpc/local.ini
+
+    [47] => rabbitmqphp/rabbitMQLib.inc
+
+    [48] => rabbitmqphp/path.inc
+
+    [49] => rabbitmqphp/test/testphp.php
+
+    [50] => rabbitmqphp/test/testLog.php
+
+    [51] => rabbitmqphp/test/testSend.php
+
+    [52] => rabbitmqphp/test/roccoTest.php
+
+    [53] => rabbitmqphp/test/testAccess.php
+
+    [54] => rabbitmqphp/testRabbitMQServer.monit
+
+    [55] => rabbitmqphp/mongoClient.php
+
+    [56] => rabbitmqphp/toDMZ.ini
+
+    [57] => rabbitmqphp/composer.json
+
+    [58] => rabbitmqphp/.log.php.swp
+
+    [59] => rabbitmqphp/local.ini
+
+    [60] => rabbitmqphp/host.ini
+
+    [61] => test1
+
+    [62] => .push.php.swp
+
+    [63] => test2
+
+)
+processed one-way message
+received request
+array(3) {
+  ["type"]=>
+  string(11) "dmz_package"
+  ["packageName"]=>
+  string(13) "dmz_17.tar.gz"
+  ["destination"]=>
+  string(10) "DEPLOYMENT"
+}
+Received: dmz_17.tar.gz For: DEPLOYMENT
+Successfully coppied to Backup!
+
+Successfully extracted!
+
+
+
+fileList is: Array
+(
+    [] => 
+)
+Array
+(
+    [0] => directory.conf
+
+    [1] => push.php
+
+    [2] => test3
+
+    [3] => updateNum.txt
+
+    [4] => output.txt
+
+    [5] => .pkgmanServer.php.swp
+
+    [6] => pkgmanServer.php
+
+    [7] => startPkgman.sh
+
+    [8] => rabbitmqphp/testRabbitMQServer.conf
+
+    [9] => rabbitmqphp/logger.inc
+
+    [10] => rabbitmqphp/toLog.ini
+
+    [11] => rabbitmqphp/get_host_info.inc
+
+    [12] => rabbitmqphp/.git/info/exclude
+
+    [13] => rabbitmqphp/.git/description
+
+    [14] => rabbitmqphp/.git/config
+
+    [15] => rabbitmqphp/.git/refs/remotes/origin/HEAD
+
+    [16] => rabbitmqphp/.git/refs/heads/master
+
+    [17] => rabbitmqphp/.git/HEAD
+
+    [18] => rabbitmqphp/.git/index
+
+    [19] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.pack
+
+    [20] => rabbitmqphp/.git/objects/pack/pack-60789b0a8d5f648a8f7f2379321bb9e00f8033f9.idx
+
+    [21] => rabbitmqphp/.git/logs/refs/remotes/origin/HEAD
+
+    [22] => rabbitmqphp/.git/logs/refs/heads/master
+
+    [23] => rabbitmqphp/.git/logs/HEAD
+
+    [24] => rabbitmqphp/.git/hooks/prepare-commit-msg.sample
+
+    [25] => rabbitmqphp/.git/hooks/pre-commit.sample
+
+    [26] => rabbitmqphp/.git/hooks/pre-push.sample
+
+    [27] => rabbitmqphp/.git/hooks/post-update.sample
+
+    [28] => rabbitmqphp/.git/hooks/update.sample
+
+    [29] => rabbitmqphp/.git/hooks/commit-msg.sample
+
+    [30] => rabbitmqphp/.git/hooks/pre-rebase.sample
+
+    [31] => rabbitmqphp/.git/hooks/pre-applypatch.sample
+
+    [32] => rabbitmqphp/.git/hooks/applypatch-msg.sample
+
+    [33] => rabbitmqphp/.git/packed-refs
+
+    [34] => rabbitmqphp/testRabbitMQClient.php
+
+    [35] => rabbitmqphp/soccerData.php
+
+    [36] => rabbitmqphp/testRabbitMQServer.php
+
+    [37] => rabbitmqphp/testRabbitMQ.ini
+
+    [38] => rabbitmqphp/toPM.ini
+
+    [39] => rabbitmqphp/testSend.php
+
+    [40] => rabbitmqphp/toDB.ini
+
+    [41] => rabbitmqphp/._testRabbitMQServer.php.swp
+
+    [42] => rabbitmqphp/Logs/testLog.php
+
+    [43] => rabbitmqphp/Logs/log
+
+    [44] => rabbitmqphp/rpc/path.inc
+
+    [45] => rabbitmqphp/rpc/loginRequest.php
+
+    [46] => rabbitmqphp/rpc/local.ini
+
+    [47] => rabbitmqphp/rabbitMQLib.inc
+
+    [48] => rabbitmqphp/path.inc
+
+    [49] => rabbitmqphp/test/testphp.php
+
+    [50] => rabbitmqphp/test/testLog.php
+
+    [51] => rabbitmqphp/test/testSend.php
+
+    [52] => rabbitmqphp/test/roccoTest.php
+
+    [53] => rabbitmqphp/test/testAccess.php
+
+    [54] => rabbitmqphp/testRabbitMQServer.monit
+
+    [55] => rabbitmqphp/mongoClient.php
+
+    [56] => rabbitmqphp/toDMZ.ini
+
+    [57] => rabbitmqphp/composer.json
+
+    [58] => rabbitmqphp/.log.php.swp
+
+    [59] => rabbitmqphp/local.ini
+
+    [60] => rabbitmqphp/host.ini
+
+    [61] => test1
+
+    [62] => .push.php.swp
+
+    [63] => test2
+
+)
+temp Cleared!
+
+dmz_17.tar.gz successfully installed to DEPLOYMENTprocessed one-way message
